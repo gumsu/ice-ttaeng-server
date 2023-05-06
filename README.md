@@ -2,7 +2,9 @@
 
 ## 실행 방법
 
-TBD
+build: gradle > build > bootJar
+
+build 이후 docker run
 
 ## 기술 스택
 
