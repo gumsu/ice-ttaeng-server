@@ -13,7 +13,7 @@ import java.util.List;
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Value("${websocket.allow-origin-patterns}")
-    List<String> originPatterns;
+    private List<String> originPatterns;
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
