@@ -9,3 +9,6 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_jkv39SsWR
+
+websocket:
+  allow-origin-patterns: ${WEBSOCKET_ALLOW_ORIGINS} # comma separate list: http://localhost:63342, http://localhost:3000
