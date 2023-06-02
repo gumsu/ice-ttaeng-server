@@ -13,10 +13,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf
-                        // ignore our stomp endpoints since they are protected using Stomp headers
-                        .ignoringRequestMatchers("/ws/**")
-                )
+                .csrf().disable()
                 .headers(headers -> headers
                         // allow same origin to frame our site to support iframe SockJS
                         .frameOptions(frameOptions -> frameOptions
@@ -28,6 +25,8 @@ public class WebSecurityConfig {
                     .and()
                 .authorizeHttpRequests()
                     .requestMatchers("/ws", "/ws/**")
+                        .permitAll()
+                    .requestMatchers("/docs/**")
                         .permitAll()
                     .anyRequest()
                         .authenticated()
