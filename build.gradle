@@ -41,6 +41,12 @@ dependencies {
     implementation 'org.springframework.security:spring-security-test'
 
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    
+    implementation 'com.google.zxing:core:3.5.1'
+    implementation 'com.google.zxing:javase:3.5.1'
+
+    implementation group: 'com.google.zxing', name: 'core', version: '3.5.1'
+    implementation group: 'com.google.zxing', name: 'javase', version: '3.5.1'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
