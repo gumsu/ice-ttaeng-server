@@ -18,8 +18,8 @@ import java.security.Principal;
 public class SpeedGameController {
     @PostMapping
     public ResponseEntity<ActivityCreateResponse> createRoom(JwtAuthenticationToken principal, @RequestBody SpeedGameCreateRequest request) {
-        String username = principal.getToken().getClaim("username"); // username, ex) google_118339889321875083261
-        String name = principal.getName();// UUID, ex) 204c3264-77d5-4ac7-b776-4be9921535ee
+//        String username = principal.getToken().getClaim("username"); // username, ex) google_118339889321875083261
+//        String name = principal.getName();// UUID, ex) 204c3264-77d5-4ac7-b776-4be9921535ee
         return ResponseEntity.ok().body(new ActivityCreateResponse("sample-name", "sample-code"));
     }
 }
