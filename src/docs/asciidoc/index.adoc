@@ -12,3 +12,7 @@ operation::user-signup[snippets='http-request,http-response,request-fields']
 === 전체 Activity 목록
 
 operation::activity-list[snippets='http-request,response-fields,http-response']
+
+=== 스피드게임 만들기
+
+operation::speedgame-create[snippets='request-headers,http-request,request-fields,response-fields,http-response']

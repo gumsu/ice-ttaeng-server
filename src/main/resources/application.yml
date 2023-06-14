@@ -8,7 +8,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_jkv39SsWR
+          issuer-uri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_V2jamxTob
   jackson:
     property-naming-strategy: SNAKE_CASE
   jpa:
