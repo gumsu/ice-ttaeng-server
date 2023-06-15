@@ -1,4 +1,4 @@
-package com.example.teamtwelvebackend;
+package com.example.teamtwelvebackend.qr;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
