@@ -13,12 +13,12 @@ import org.springframework.web.client.RestTemplate;
 public class NaverShortUrlService {
 
     private static final String NAVER_SHORT_API_URL = "https://openapi.naver.com/v1/util/shorturl?url=";
-    private static final String NAVER_CLIENT_ID = "X-Naver-Client-Id";
-    private static final String NAVER_CLIENT_SECRET = "X-Naver-Client-Secret";
+    private static final String X_NAVER_CLIENT_ID = "X-Naver-Client-Id";
+    private static final String X_NAVER_CLIENT_SECRET = "X-Naver-Client-Secret";
 
-    @Value("${NAVER_CLIENT_ID}")
+    @Value("${naver-client-id}")
     private String clientId;
-    @Value("${NAVER_CLIENT_SECRET}")
+    @Value("${naver-client-secret}")
     private String clientSecret;
 
     public NaverShortUrlDto naverShortUrlApi(String url) {
@@ -26,8 +26,8 @@ public class NaverShortUrlService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.add(NAVER_CLIENT_ID, clientId);
-        headers.add(NAVER_CLIENT_SECRET, clientSecret);
+        headers.add(X_NAVER_CLIENT_ID, clientId);
+        headers.add(X_NAVER_CLIENT_SECRET, clientSecret);
 
         String requestBody = apiURL;
         HttpEntity<String> httpEntity = new HttpEntity<>(requestBody, headers);

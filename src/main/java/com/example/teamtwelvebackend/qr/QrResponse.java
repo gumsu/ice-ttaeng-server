@@ -1,4 +1,4 @@
-package com.example.teamtwelvebackend;
+package com.example.teamtwelvebackend.qr;
 
 import lombok.Builder;
 import lombok.Getter;
