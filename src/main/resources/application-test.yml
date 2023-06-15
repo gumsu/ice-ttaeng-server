@@ -12,3 +12,6 @@ spring:
 
 websocket:
   allow-origin-patterns: '*'
+
+naver-client-id: ''
+naver-client-secret: ''
