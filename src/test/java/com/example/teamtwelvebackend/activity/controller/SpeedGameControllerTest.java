@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -49,6 +50,12 @@ class SpeedGameControllerTest {
 
         ResultActions result = mockMvc.perform(post("/activity/speedgame")
                         .header("Authorization", "Bearer access_token")
+                        .with(SecurityMockMvcRequestPostProcessors.jwt()
+                                .jwt(jwt -> jwt
+                                        .claim("username", "google_118339889321875083261")
+                                        .claim("sub", "204c3264-77d5-4ac7-b776-4be9921535ee")
+                                )
+                        )
                 .content(request)
                 .contentType(MediaType.APPLICATION_JSON));
 
