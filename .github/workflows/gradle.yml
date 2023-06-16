@@ -35,6 +35,8 @@ jobs:
         spring.datasource.url: ${{ secrets.DB_URL }}
         spring.datasource.username: ${{ secrets.DB_USERNAME }}
         spring.datasource.password: ${{ secrets.DB_PASSWORD }}
+        naver-client-id: ${secrets.NAVER_CLIENT_ID}
+        naver-client-secret: ${secrets.NAVER_CLIENT_SECRET}
         websocket.allow-origin-patterns: ${{ secrets.WEBSOCKET_ALLOW_ORIGINS }}
 
     - name: Build with Gradle
