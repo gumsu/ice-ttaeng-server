@@ -14,7 +14,8 @@ public class SpeedGameCreateRequest {
         String questionText;
         List<Answer> answers;
 
-        private static class Answer {
+        @Getter
+        public static class Answer {
             Integer order;
             String answerText;
             Boolean correctAnswer;

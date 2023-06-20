@@ -4,6 +4,7 @@ import com.example.teamtwelvebackend.activity.service.SpeedGameService;
 import com.example.teamtwelvebackend.ws.speedgame.message.ActivityRoomMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,7 @@ public class SpeedGameHostController {
      */
     @MessageMapping("/speedgame/{roomName}/start")
     @SendTo("/topic/speedgame/{roomName}")
-    public ActivityRoomMessage start(@PathVariable(value = "roomName") String roomName) throws JsonProcessingException {
+    public ActivityRoomMessage start(@DestinationVariable String roomName) {
         return speedGameService.getContent(roomName);
     }
 
