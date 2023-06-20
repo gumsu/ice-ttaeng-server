@@ -17,6 +17,9 @@ spring:
     hibernate:
       ddl-auto: none
 
+cors:
+  allow-origin-patterns: ${CORS_ALLOW_ORIGINS_PATTERNS}
+
 websocket:
   allow-origin-patterns: ${WEBSOCKET_ALLOW_ORIGINS} # comma separate list: http://localhost:63342, http://localhost:3000
 

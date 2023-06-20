@@ -38,6 +38,7 @@ jobs:
         naver-client-id: ${{secrets.NAVER_CLIENT_ID}}
         naver-client-secret: ${{secrets.NAVER_CLIENT_SECRET}}
         websocket.allow-origin-patterns: ${{ secrets.WEBSOCKET_ALLOW_ORIGINS }}
+        cors.allow-origin-patterns: ${{ vars.CORS_ALLOW_ORIGINS_PATTERNS }}
 
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
