@@ -1,7 +1,7 @@
 package com.example.teamtwelvebackend.ws.moodcheckin;
 
 import com.example.teamtwelvebackend.activity.service.MoodCheckInService;
-import com.example.teamtwelvebackend.ws.speedgame.message.ActivityRoomMessage;
+import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;

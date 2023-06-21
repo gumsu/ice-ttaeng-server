@@ -1,4 +1,4 @@
-package com.example.teamtwelvebackend.activity.controller.response;
+package com.example.teamtwelvebackend.activity.speedgame.controller.rest.response;
 
 public record SpeedGameRoomResponse(
         String roomName,

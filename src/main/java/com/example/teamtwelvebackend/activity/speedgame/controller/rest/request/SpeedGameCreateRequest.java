@@ -1,4 +1,4 @@
-package com.example.teamtwelvebackend.activity.controller.request;
+package com.example.teamtwelvebackend.activity.speedgame.controller.rest.request;
 
 import lombok.Getter;
 

@@ -1,26 +1,31 @@
-package com.example.teamtwelvebackend.activity.domain;
+package com.example.teamtwelvebackend.activity.speedgame.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class SpeedGameAnswer {
+@Getter
+@Table(name = "sg_answer")
+public class Answer {
     @Id
     @GeneratedValue
     Long id;
-    Integer answerOrder;
+    String roomName;
+    Integer number;
     String answerText;
     Boolean correctAnswer;
 
     @ManyToOne
     @JoinColumn(name = "question_id", insertable = false, updatable = false)
-    SpeedGameQuestion question;
+    Question question;
 
-    public SpeedGameAnswer(Integer order, String answerText, Boolean correctAnswer, SpeedGameQuestion question) {
-        this.answerOrder = order;
+    public Answer(String roomName, Integer order, String answerText, Boolean correctAnswer, Question question) {
+        this.roomName = roomName;
+        this.number = order;
         this.answerText = answerText;
         this.correctAnswer = correctAnswer;
         this.question = question;

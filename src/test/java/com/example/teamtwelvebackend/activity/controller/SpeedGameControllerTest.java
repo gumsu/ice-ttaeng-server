@@ -1,8 +1,10 @@
 package com.example.teamtwelvebackend.activity.controller;
 
-import com.example.teamtwelvebackend.activity.service.SpeedGameCreatedDto;
-import com.example.teamtwelvebackend.activity.service.SpeedGameRoomDto;
-import com.example.teamtwelvebackend.activity.service.SpeedGameService;
+import com.example.teamtwelvebackend.activity.speedgame.service.HostService;
+import com.example.teamtwelvebackend.activity.speedgame.service.dto.RoomCreatedDto;
+import com.example.teamtwelvebackend.activity.speedgame.service.dto.RoomDto;
+import com.example.teamtwelvebackend.activity.speedgame.service.GuestService;
+import com.example.teamtwelvebackend.activity.speedgame.controller.rest.SpeedGameController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -58,7 +60,10 @@ class SpeedGameControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    SpeedGameService speedGameService;
+    HostService service;
+
+    @MockBean
+    GuestService guestService;
 
     @Test
     @DisplayName("스피드게임 방 만들기")
@@ -114,8 +119,8 @@ class SpeedGameControllerTest {
                 """;
 
 
-        when(speedGameService.createRoom(eq(userId), Mockito.any()))
-                .thenReturn(new SpeedGameCreatedDto("sample-room", "sample-room"));
+        when(service.createRoom(eq(userId), Mockito.any()))
+                .thenReturn(new RoomCreatedDto("sample-room", "sample-room"));
 
         ResultActions result = mockMvc.perform(
                 RestDocumentationRequestBuilders.post("/activity/speedgame")
@@ -151,8 +156,8 @@ class SpeedGameControllerTest {
     @DisplayName("스피드게임 방 정보 조회")
     void roomInfo() throws Exception {
         String roomName = UUID.randomUUID().toString();
-        when(speedGameService.getRoomByName(eq(roomName)))
-                .thenReturn(new SpeedGameRoomDto("sample-room", "sample-room"));
+        when(guestService.getRoomDtoByName(eq(roomName)))
+                .thenReturn(new RoomDto("sample-room", "sample-room"));
 
         ResultActions result = mockMvc.perform(RestDocumentationRequestBuilders.
                 get("/activity/speedgame/{roomName}", roomName));

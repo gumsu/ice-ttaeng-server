@@ -1,19 +1,17 @@
-package com.example.teamtwelvebackend.ws.speedgame;
+package com.example.teamtwelvebackend.activity.speedgame.controller.ws;
 
-import com.example.teamtwelvebackend.activity.service.SpeedGameService;
-import com.example.teamtwelvebackend.ws.speedgame.message.ActivityRoomMessage;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.example.teamtwelvebackend.activity.speedgame.service.HostService;
+import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequiredArgsConstructor
 public class SpeedGameHostController {
-    final SpeedGameService speedGameService;
+    final HostService service;
 
     /**
      * 스피드게임 시작 또는 다음
@@ -29,7 +27,7 @@ public class SpeedGameHostController {
     @MessageMapping("/speedgame/{roomName}/start")
     @SendTo("/topic/speedgame/{roomName}")
     public ActivityRoomMessage start(@DestinationVariable String roomName) {
-        return speedGameService.getContent(roomName);
+        return service.process(roomName);
     }
 
 }

@@ -1,6 +1,6 @@
 package com.example.teamtwelvebackend.ws;
 
-import com.example.teamtwelvebackend.ws.speedgame.message.ActivityRoomMessage;
+import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;

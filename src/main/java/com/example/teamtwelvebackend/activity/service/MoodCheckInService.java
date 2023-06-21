@@ -2,7 +2,7 @@ package com.example.teamtwelvebackend.activity.service;
 
 import com.example.teamtwelvebackend.activity.domain.MoodCheckIn;
 import com.example.teamtwelvebackend.activity.repository.MoodCheckInRepository;
-import com.example.teamtwelvebackend.ws.speedgame.message.ActivityRoomMessage;
+import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

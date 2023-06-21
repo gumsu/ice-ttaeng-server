@@ -32,7 +32,8 @@ public class WebSecurityConfig {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                 .authorizeHttpRequests()
-                    .requestMatchers("/", "/ws", "/ws/**", "/qr/**", "/docs/**", "/activities")
+                    .requestMatchers("/", "/ws", "/ws/**", "/qr/**", "/docs/**", "/activities",
+                            "/activity/speedgame/**")
                         .permitAll()
                     .anyRequest()
                         .authenticated()

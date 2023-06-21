@@ -1,4 +1,4 @@
-package com.example.teamtwelvebackend.ws.speedgame.message;
+package com.example.teamtwelvebackend.activity.speedgame.controller.ws.message;
 
 /**
  * 스피드게임 정답 제출

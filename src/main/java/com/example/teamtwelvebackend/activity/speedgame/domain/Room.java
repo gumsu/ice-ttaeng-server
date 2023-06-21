@@ -1,6 +1,5 @@
-package com.example.teamtwelvebackend.activity.domain;
+package com.example.teamtwelvebackend.activity.speedgame.domain;
 
-import com.example.teamtwelvebackend.activity.controller.request.SpeedGameCreateRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @NoArgsConstructor
-public class SpeedGameRoom {
+public class Room {
     @Id
     @GeneratedValue
     Long id;
@@ -18,16 +17,16 @@ public class SpeedGameRoom {
     String name;
 
     @Enumerated(value = EnumType.STRING)
-    SpeedGameRoomStatus status;
+    RoomStatus status;
 
     Integer currentQuestion = 0;
     Integer totalQuestion = 5; // for test
 
     String createdBy;
 
-    public SpeedGameRoom(String creatorId) {
+    public Room(String creatorId) {
         createdBy = creatorId;
-        status = SpeedGameRoomStatus.CREATED_ROOM;
+        status = RoomStatus.CREATED_ROOM;
         name = UUID.randomUUID().toString();
     }
 
@@ -36,20 +35,20 @@ public class SpeedGameRoom {
      *
      * @return
      */
-    public SpeedGameRoomStatus next() {
+    public RoomStatus next() {
         switch (status) {
             case CREATED_ROOM -> {
-                status = SpeedGameRoomStatus.OPENED_QUESTION;
+                status = RoomStatus.OPENED_QUESTION;
                 currentQuestion++;
             }
             case OPENED_QUESTION -> {
-                status = SpeedGameRoomStatus.OPENED_ANSWER;
+                status = RoomStatus.OPENED_ANSWER;
             }
             case OPENED_ANSWER -> {
                 if (currentQuestion + 1 > totalQuestion) {
-                    status = SpeedGameRoomStatus.CLOSED_ROOM;
+                    status = RoomStatus.CLOSED_ROOM;
                 } else {
-                    status = SpeedGameRoomStatus.OPENED_QUESTION;
+                    status = RoomStatus.OPENED_QUESTION;
                     currentQuestion++;
                 }
             }

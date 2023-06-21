@@ -1,4 +1,4 @@
-package com.example.teamtwelvebackend.ws.speedgame.message;
+package com.example.teamtwelvebackend.activity.speedgame.controller.ws.message;
 
 /**
  * 액티비티 진행 중 주고 받는 메시지
