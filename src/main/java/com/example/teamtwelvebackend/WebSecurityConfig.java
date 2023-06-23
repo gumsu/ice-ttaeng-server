@@ -33,7 +33,7 @@ public class WebSecurityConfig {
                     .and()
                 .authorizeHttpRequests()
                     .requestMatchers("/", "/ws", "/ws/**", "/qr/**", "/docs/**", "/activities",
-                            "/activity/speedgame/**")
+                            "/activity/speedgame/**", "/activity/moodcheckin/**")
                         .permitAll()
                     .anyRequest()
                         .authenticated()

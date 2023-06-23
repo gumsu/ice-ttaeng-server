@@ -20,3 +20,11 @@ operation::speedgame-create[snippets='request-headers,http-request,request-field
 === 스피드게임 방 조회
 
 operation::speedgame-get-info[snippets='path-parameters,http-request,response-fields,http-response']
+
+=== 기분체크인 만들기
+
+operation::moodcheckin-create[snippets='request-headers,http-request,response-fields,http-response']
+
+=== 기분체크인 방 조회
+
+operation::moodcheckin-get-info[snippets='path-parameters,http-request,response-fields,http-response']

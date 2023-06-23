@@ -1,7 +1,9 @@
-package com.example.teamtwelvebackend.activity.service;
+package com.example.teamtwelvebackend.activity.moodcheckin.service;
 
-import com.example.teamtwelvebackend.activity.domain.MoodCheckIn;
-import com.example.teamtwelvebackend.activity.repository.MoodCheckInRepository;
+import com.example.teamtwelvebackend.activity.moodcheckin.domain.MoodCheckIn;
+import com.example.teamtwelvebackend.activity.moodcheckin.domain.MoodCheckInRoom;
+import com.example.teamtwelvebackend.activity.moodcheckin.repository.MoodCheckInRepository;
+import com.example.teamtwelvebackend.activity.moodcheckin.repository.MoodCheckInRoomRepository;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +14,20 @@ import org.springframework.stereotype.Service;
 public class MoodCheckInService {
 
     private final MoodCheckInRepository moodCheckInRepository;
+    private final MoodCheckInRoomRepository moodCheckInRoomRepository;
 
+    @Transactional
+    public MoodCheckInRoom createRoom(String userName) {
+        MoodCheckInRoom moodCheckInRoom = MoodCheckInRoom.builder()
+            .createdBy(userName)
+            .build();
+        return moodCheckInRoomRepository.save(moodCheckInRoom);
+    }
+
+    public MoodCheckInRoom getRoomByName(String roomName) {
+        return moodCheckInRoomRepository.findByName(roomName)
+            .orElseThrow(() -> new IllegalStateException("없는 방입니다."));
+    }
 
     public ActivityRoomMessage getContent(String roomName) {
         return new ActivityRoomMessage("타입", "메시지", "10명");

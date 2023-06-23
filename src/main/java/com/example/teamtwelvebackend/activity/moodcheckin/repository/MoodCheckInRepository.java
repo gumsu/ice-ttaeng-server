@@ -1,6 +1,6 @@
-package com.example.teamtwelvebackend.activity.repository;
+package com.example.teamtwelvebackend.activity.moodcheckin.repository;
 
-import com.example.teamtwelvebackend.activity.domain.MoodCheckIn;
+import com.example.teamtwelvebackend.activity.moodcheckin.domain.MoodCheckIn;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

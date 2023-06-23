@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class QrResponse {
+public class ShortURLAndQrVO {
 
-    private String url;
-    private String qr;
+    private final String url;
+    private final String qr;
 }

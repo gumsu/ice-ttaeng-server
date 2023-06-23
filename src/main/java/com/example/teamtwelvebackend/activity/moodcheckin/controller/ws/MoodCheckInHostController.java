@@ -1,6 +1,6 @@
-package com.example.teamtwelvebackend.ws.moodcheckin;
+package com.example.teamtwelvebackend.activity.moodcheckin.controller.ws;
 
-import com.example.teamtwelvebackend.activity.service.MoodCheckInService;
+import com.example.teamtwelvebackend.activity.moodcheckin.service.MoodCheckInService;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,12 +21,8 @@ public class MoodCheckInHostController {
 
     @MessageMapping("/moodcheckin/{roomName}/start")
     @SendTo("/topic/moodcheckin/{roomName}")
-    public ActivityRoomMessage start(@DestinationVariable(value = "roomName") String roomName, StompHeaderAccessor stompHeaderAccessor, ActivityRoomMessage activityRoomMessage) {
-        log.info("룸네임 " + roomName);
-        log.info("메시지 " + activityRoomMessage);
-        simpMessageSendingOperations.convertAndSend("/topic/moodcheckin/"+roomName, activityRoomMessage);
+    public ActivityRoomMessage start(@DestinationVariable(value = "roomName") String roomName) {
         // TODO 큐알 코드 제공
-        // TODO 몇 명 들어왔나?
         return moodCheckInService.getContent(roomName);
     }
 

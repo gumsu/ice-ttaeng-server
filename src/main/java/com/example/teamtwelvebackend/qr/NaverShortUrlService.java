@@ -21,6 +21,7 @@ public class NaverShortUrlService {
     @Value("${naver-client-secret}")
     private String clientSecret;
 
+    // TODO private
     public NaverShortUrlDto naverShortUrlApi(String url) {
         String apiURL = NAVER_SHORT_API_URL + url;
 
@@ -36,5 +37,15 @@ public class NaverShortUrlService {
         ResponseEntity<NaverShortUrlDto> response = restTemplate.exchange(apiURL, HttpMethod.GET, httpEntity, NaverShortUrlDto.class);
 
         return response.getBody();
+    }
+
+    public ShortURLAndQrVO createShortURLAndQrCode(String url) {
+        NaverShortUrlDto naverShortUrlDto = naverShortUrlApi(url);
+        String shortUrl = naverShortUrlDto.getResult().getUrl();
+        String qr = shortUrl + ".qr";
+        return ShortURLAndQrVO.builder()
+            .url(shortUrl)
+            .qr(qr)
+            .build();
     }
 }

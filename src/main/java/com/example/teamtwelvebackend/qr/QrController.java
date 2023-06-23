@@ -13,12 +13,12 @@ public class QrController {
     private final NaverShortUrlService naverShortUrlService;
 
     @GetMapping("/qr")
-    public ResponseEntity<QrResponse> createQrCode(@RequestParam String url) {
+    public ResponseEntity<ShortURLAndQrVO> createQrCode(@RequestParam String url) {
 
         NaverShortUrlDto naverShortUrlDto = naverShortUrlService.naverShortUrlApi(url);
         String shortUrl = naverShortUrlDto.getResult().getUrl();
         String qr = shortUrl + ".qr";
-        QrResponse qrResponse = QrResponse.builder()
+        ShortURLAndQrVO qrResponse = ShortURLAndQrVO.builder()
             .url(shortUrl)
             .qr(qr)
             .build();

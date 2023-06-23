@@ -1,4 +1,4 @@
-package com.example.teamtwelvebackend.activity.domain;
+package com.example.teamtwelvebackend.activity.moodcheckin.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,6 +1,6 @@
-package com.example.teamtwelvebackend.ws.moodcheckin;
+package com.example.teamtwelvebackend.activity.moodcheckin.controller.ws;
 
-import com.example.teamtwelvebackend.activity.service.MoodCheckInService;
+import com.example.teamtwelvebackend.activity.moodcheckin.service.MoodCheckInService;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
