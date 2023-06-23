@@ -1,6 +1,6 @@
 package com.example.teamtwelvebackend.activity.speedgame.controller.rest;
 
-import com.example.teamtwelvebackend.activity.controller.response.ActivityCreateResponse;
+import com.example.teamtwelvebackend.activity.common.controller.response.ActivityCreateResponse;
 import com.example.teamtwelvebackend.activity.speedgame.controller.rest.request.SpeedGameCreateRequest;
 import com.example.teamtwelvebackend.activity.speedgame.controller.rest.response.SpeedGameRoomResponse;
 import com.example.teamtwelvebackend.activity.speedgame.service.GuestService;

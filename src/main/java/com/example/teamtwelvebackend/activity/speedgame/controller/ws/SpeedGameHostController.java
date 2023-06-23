@@ -27,7 +27,7 @@ public class SpeedGameHostController {
     @MessageMapping("/speedgame/{roomName}/start")
     @SendTo("/topic/speedgame/{roomName}")
     public ActivityRoomMessage start(@DestinationVariable String roomName) {
-        return service.process(roomName);
+        return service.proceed(roomName);
     }
 
 }

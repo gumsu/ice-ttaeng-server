@@ -9,7 +9,8 @@ import java.util.UUID;
 @Getter
 @Entity
 @NoArgsConstructor
-public class Room {
+@Table(name = "sg_room")
+public class SpeedGameRoom {
     @Id
     @GeneratedValue
     Long id;
@@ -20,14 +21,15 @@ public class Room {
     RoomStatus status;
 
     Integer currentQuestion = 0;
-    Integer totalQuestion = 5; // for test
+    Integer totalQuestion;
 
     String createdBy;
 
-    public Room(String creatorId) {
+    public SpeedGameRoom(String creatorId, int size) {
         createdBy = creatorId;
         status = RoomStatus.CREATED_ROOM;
         name = UUID.randomUUID().toString();
+        totalQuestion = size;
     }
 
     /**

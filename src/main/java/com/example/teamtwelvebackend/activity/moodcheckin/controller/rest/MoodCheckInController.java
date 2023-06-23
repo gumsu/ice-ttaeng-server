@@ -1,7 +1,7 @@
 package com.example.teamtwelvebackend.activity.moodcheckin.controller.rest;
 
-import com.example.teamtwelvebackend.activity.controller.response.ActivityCreateResponse;
-import com.example.teamtwelvebackend.activity.controller.response.MoodCheckInRoomResponse;
+import com.example.teamtwelvebackend.activity.common.controller.response.ActivityCreateResponse;
+import com.example.teamtwelvebackend.activity.common.controller.response.MoodCheckInRoomResponse;
 import com.example.teamtwelvebackend.activity.moodcheckin.domain.MoodCheckInRoom;
 import com.example.teamtwelvebackend.activity.moodcheckin.service.MoodCheckInService;
 import com.example.teamtwelvebackend.qr.NaverShortUrlService;

@@ -1,6 +1,6 @@
-package com.example.teamtwelvebackend.activity.repository;
+package com.example.teamtwelvebackend.activity.common.repository;
 
-import com.example.teamtwelvebackend.activity.domain.Activity;
+import com.example.teamtwelvebackend.activity.common.domain.Activity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

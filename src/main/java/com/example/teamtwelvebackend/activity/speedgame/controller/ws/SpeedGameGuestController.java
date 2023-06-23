@@ -2,7 +2,7 @@ package com.example.teamtwelvebackend.activity.speedgame.controller.ws;
 
 import com.example.teamtwelvebackend.activity.speedgame.service.GuestService;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
-import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.SpeedGameSubmitAnswer;
+import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.SubmitAnswer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -32,9 +32,7 @@ public class SpeedGameGuestController {
     public ActivityRoomMessage registerName(@DestinationVariable String roomName,
                                             SimpMessageHeaderAccessor headerAccessor,
                                             String username) {
-        String sessionId = headerAccessor.getSessionId();
-        System.out.println(sessionId);
-        System.out.println(username);
+        guestService.registerNickname(roomName, headerAccessor.getSessionId(), username);
         return new ActivityRoomMessage("NAME_REGISTERED", "이름이 등록되었습니다", "{}");
     }
 
@@ -49,8 +47,9 @@ public class SpeedGameGuestController {
     @MessageMapping("/speedgame/{roomName}/submit-answer")
     @SendToUser("/queue/reply")
     public ActivityRoomMessage submitAnswer(@DestinationVariable String roomName,
-                                            SpeedGameSubmitAnswer answer) {
-        guestService.submitAnswer(roomName, answer.userId(), answer.questionId(), answer.answerId());
+                                            SimpMessageHeaderAccessor headerAccessor,
+                                            SubmitAnswer answer) {
+        guestService.submitAnswer(roomName, headerAccessor.getSessionId(), answer.questionId(), answer.answerId());
         return new ActivityRoomMessage("ANSWER_SUBMITTED", "정답이 제출되었습니다", "{}");
     }
 }

@@ -1,4 +1,4 @@
-package com.example.teamtwelvebackend.activity.controller.response;
+package com.example.teamtwelvebackend.activity.common.controller.response;
 
 import lombok.Builder;
 import lombok.Getter;

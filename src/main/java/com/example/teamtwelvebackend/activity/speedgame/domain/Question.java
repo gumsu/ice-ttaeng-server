@@ -34,4 +34,8 @@ public class Question {
                 .map(answer -> new Answer(roomName, answer.getOrder(), answer.getAnswerText(), answer.getCorrectAnswer(), this))
                 .toList();
     }
+
+    public List<Answer> getCorrectAnswer() {
+        return answers.stream().filter(Answer::getCorrectAnswer).toList();
+    }
 }

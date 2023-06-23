@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface UserAnswerRepository extends JpaRepository<UserAnswer, Long> {
-    List<UserAnswer> findByRoomNameAndQuestionIdAndAnswerId(String roomName, String questionId, String answerId);
+    List<UserAnswer> findByRoomNameAndQuestionIdAndAnswerId(String roomName, Long questionId, Long answerId);
 //    Optional<UserAnswer> findByRoomNameAndNumber(String roomName, int number);
 }

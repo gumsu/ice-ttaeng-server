@@ -1,7 +1,7 @@
-package com.example.teamtwelvebackend.activity.controller;
+package com.example.teamtwelvebackend.activity.common.controller;
 
-import com.example.teamtwelvebackend.activity.controller.response.ActivityResponse;
-import com.example.teamtwelvebackend.activity.service.ActivityService;
+import com.example.teamtwelvebackend.activity.common.controller.response.ActivityResponse;
+import com.example.teamtwelvebackend.activity.common.service.ActivityService;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

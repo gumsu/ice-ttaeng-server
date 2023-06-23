@@ -1,7 +1,7 @@
-package com.example.teamtwelvebackend.activity.service;
+package com.example.teamtwelvebackend.activity.common.service;
 
-import com.example.teamtwelvebackend.activity.domain.Activity;
-import com.example.teamtwelvebackend.activity.repository.ActivityRepository;
+import com.example.teamtwelvebackend.activity.common.domain.Activity;
+import com.example.teamtwelvebackend.activity.common.repository.ActivityRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

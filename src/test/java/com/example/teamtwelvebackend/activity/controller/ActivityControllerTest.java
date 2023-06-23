@@ -1,7 +1,8 @@
 package com.example.teamtwelvebackend.activity.controller;
 
-import com.example.teamtwelvebackend.activity.domain.Activity;
-import com.example.teamtwelvebackend.activity.service.ActivityService;
+import com.example.teamtwelvebackend.activity.common.controller.ActivityController;
+import com.example.teamtwelvebackend.activity.common.domain.Activity;
+import com.example.teamtwelvebackend.activity.common.service.ActivityService;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

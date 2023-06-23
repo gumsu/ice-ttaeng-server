@@ -1,6 +1,6 @@
-package com.example.teamtwelvebackend.activity.controller.response;
+package com.example.teamtwelvebackend.activity.common.controller.response;
 
-import com.example.teamtwelvebackend.activity.domain.Activity;
+import com.example.teamtwelvebackend.activity.common.domain.Activity;
 import lombok.Getter;
 
 @Getter

@@ -78,37 +78,37 @@ class SpeedGameControllerTest {
                 {
                     "questions": [
                         {
-                            "order": 1,
+                            "number": 1,
                             "question_text": "질문 내용",
                             "answers": [
                                 {
-                                    "order": 1,
+                                    "number": 1,
                                     "answer_text": "대답 1",
                                     "correct_answer": true
                                 },
                                 {
-                                    "order": 2,
+                                    "number": 2,
                                     "answer_text": "대답 2",
                                     "correct_answer": false
                                 },
                                 {
-                                    "order": 3,
+                                    "number": 3,
                                     "answer_text": "대답 3",
                                     "correct_answer": false
                                 }
                             ]
                         },
                         {
-                            "order": 2,
+                            "number": 2,
                             "question_text": "질문 내용 2",
                             "answers": [
                                 {
-                                    "order": 1,
+                                    "number": 1,
                                     "answer_text": "대답 2-1",
                                     "correct_answer": false
                                 },
                                 {
-                                    "order": 2,
+                                    "number": 2,
                                     "answer_text": "대답 2-2",
                                     "correct_answer": true
                                 }
@@ -137,9 +137,9 @@ class SpeedGameControllerTest {
                         requestHeaders(
                                 headerWithName("Authorization").description("access token 이 필요합니다")),
                         requestFields(
-                                fieldWithPath("questions.[].order").description("문제 순서"),
+                                fieldWithPath("questions.[].number").description("문제 순서"),
                                 fieldWithPath("questions.[].question_text").description("문제 내용"),
-                                fieldWithPath("questions.[].answers.[].order").description("대답 순서"),
+                                fieldWithPath("questions.[].answers.[].number").description("대답 순서"),
                                 fieldWithPath("questions.[].answers.[].answer_text").description("대답 내용"),
                                 fieldWithPath("questions.[].answers.[].correct_answer").description("정답 여부")
                         ),

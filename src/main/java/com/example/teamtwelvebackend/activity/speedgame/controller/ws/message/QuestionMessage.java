@@ -2,9 +2,9 @@ package com.example.teamtwelvebackend.activity.speedgame.controller.ws.message;
 
 import java.util.List;
 
-public record SpeedGameQuestionMessage (
-    String questionId,
-    Integer order,
+public record QuestionMessage(
+    Long questionId,
+    Integer number,
     String questionText,
     List<Answer> answers
 

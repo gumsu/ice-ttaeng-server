@@ -8,15 +8,9 @@ import java.security.Principal;
 
 @RestController
 @Slf4j
-public class TestController {
+public class HomeController {
     @GetMapping("/")
     public String root() {
         return "bside1512";
-    }
-
-    @GetMapping("/hello")
-    public String hello(Principal principal) {
-        log.info(principal.toString());
-        return "Hello";
     }
 }

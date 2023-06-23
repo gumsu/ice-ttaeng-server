@@ -1,4 +1,4 @@
-package com.example.teamtwelvebackend.ws.sample;
+package com.example.teamtwelvebackend.ws;
 
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
 import lombok.RequiredArgsConstructor;
