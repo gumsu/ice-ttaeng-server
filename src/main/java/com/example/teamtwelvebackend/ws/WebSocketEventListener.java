@@ -3,16 +3,21 @@ package com.example.teamtwelvebackend.ws;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.messaging.simp.user.SimpSubscription;
+import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
+
+import java.util.Set;
 
 @Component
 @Slf4j
@@ -21,6 +26,9 @@ public class WebSocketEventListener {
 
     private final SimpMessagingTemplate template;
     private final SimpMessageSendingOperations simpMessageSendingOperations;
+
+    @Autowired
+    private SimpUserRegistry simpUserRegistry;
 
     @EventListener
     public void handleSessionConnectEvent(SessionConnectEvent sessionConnectEvent) {
@@ -43,6 +51,11 @@ public class WebSocketEventListener {
         String simpSessionId = (String) header.getHeader("simpSessionId");
         template.convertAndSend(simpDestination, new ActivityRoomMessage("ack_user", simpSessionId + "님이 입장했습니다.", "{}"));
         log.info("SessionSubscribeEvent " + message.toString());
+
+        Set<SimpSubscription> subscriptions = simpUserRegistry.findSubscriptions(subscription -> subscription.getDestination().equals(simpDestination));
+
+        log.info("allUser: " + simpUserRegistry.getUserCount());
+        log.info("subscriptions: " + subscriptions.size());
 
         // TODO 접속 인원수 체크하기
         simpMessageSendingOperations.convertAndSend(header.getDestination() + "/number", header.getSessionId());
