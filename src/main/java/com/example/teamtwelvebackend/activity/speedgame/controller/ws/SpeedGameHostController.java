@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -26,8 +27,9 @@ public class SpeedGameHostController {
      */
     @MessageMapping("/speedgame/{roomName}/start")
     @SendTo("/topic/speedgame/{roomName}")
-    public ActivityRoomMessage start(@DestinationVariable String roomName) {
-        return service.proceed(roomName);
+    public ActivityRoomMessage start(JwtAuthenticationToken principal, @DestinationVariable String roomName) {
+        String creatorId = principal.getName();
+        return service.proceed(creatorId, roomName);
     }
 
 }

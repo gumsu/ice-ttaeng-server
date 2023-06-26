@@ -51,12 +51,16 @@ public class HostService {
     /**
      * 다음 상태로 진행
      *
-     * @param roomName 다음 상태로 진행 시킬 방 이름
+     * @param creatorId
+     * @param roomName  다음 상태로 진행 시킬 방 이름
      * @return 다음 상태에 대한 메시지
      */
     @Transactional
-    public ActivityRoomMessage proceed(String roomName) {
+    public ActivityRoomMessage proceed(String creatorId, String roomName) {
         SpeedGameRoom speedGameRoom = roomRepository.findByName(roomName).orElseThrow();
+        if (!speedGameRoom.getCreatedBy().equals(creatorId)) {
+            throw new IllegalStateException("방을 만든 사람이 아닙니다.");
+        }
         RoomStatus status = speedGameRoom.next();
         switch (status) {
             case CREATED_ROOM -> {
