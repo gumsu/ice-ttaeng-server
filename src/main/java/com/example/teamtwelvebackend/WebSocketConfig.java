@@ -1,6 +1,7 @@
 package com.example.teamtwelvebackend;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.teamtwelvebackend.activity.speedgame.controller.ws.Participant;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -21,7 +22,6 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
-import org.springframework.web.socket.server.HandshakeHandler;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
 import java.security.Principal;
@@ -32,6 +32,7 @@ import java.util.UUID;
 @Configuration
 @EnableWebSocketMessageBroker
 @Order(Ordered.HIGHEST_PRECEDENCE + 99)
+@Slf4j
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Value("${websocket.allow-origin-patterns}")
     private List<String> originPatterns;
@@ -58,8 +59,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     public static class AssignPrincipalHandshakeHandler extends DefaultHandshakeHandler {
         @Override
-        protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
-            return () -> UUID.randomUUID().toString();
+        protected Participant determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
+            return new Participant(UUID.randomUUID().toString());
         }
     }
 
@@ -81,6 +82,17 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                     }
 
                 }
+
+                // 참가자가 토픽을 구독할 때 닉네임이 있다면 등록 가능
+                if (StompCommand.SUBSCRIBE.equals(accessor.getCommand()) &&
+                    accessor.getHeader("simpUser") instanceof Participant participant) {
+                    List<String> header = accessor.getNativeHeader("nickname");
+                    if (header != null && !header.isEmpty()) {
+                        String nickname = header.get(0);
+                        participant.setNickname(nickname);
+                    }
+                }
+
                 return message;
             }
         });
