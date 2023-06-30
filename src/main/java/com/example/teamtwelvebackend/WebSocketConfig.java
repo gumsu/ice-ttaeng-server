@@ -1,6 +1,6 @@
 package com.example.teamtwelvebackend;
 
-import com.example.teamtwelvebackend.activity.speedgame.controller.ws.Participant;
+import com.example.teamtwelvebackend.ws.Participant;
 import com.example.teamtwelvebackend.ws.StompErrorHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +25,6 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;

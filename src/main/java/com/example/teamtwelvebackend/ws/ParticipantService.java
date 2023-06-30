@@ -1,6 +1,5 @@
 package com.example.teamtwelvebackend.ws;
 
-import com.example.teamtwelvebackend.activity.speedgame.controller.ws.Participant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.user.SimpSubscription;
 import org.springframework.messaging.simp.user.SimpUserRegistry;

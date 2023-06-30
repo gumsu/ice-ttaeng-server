@@ -1,4 +1,4 @@
-package com.example.teamtwelvebackend.activity.speedgame.controller.ws;
+package com.example.teamtwelvebackend.ws;
 
 import lombok.RequiredArgsConstructor;
 

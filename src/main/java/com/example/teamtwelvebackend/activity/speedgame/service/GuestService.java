@@ -1,7 +1,6 @@
 package com.example.teamtwelvebackend.activity.speedgame.service;
 
-import com.example.teamtwelvebackend.activity.speedgame.controller.ws.Participant;
-import com.example.teamtwelvebackend.activity.speedgame.domain.UserNickname;
+import com.example.teamtwelvebackend.ws.Participant;
 import com.example.teamtwelvebackend.activity.speedgame.domain.SpeedGameRoom;
 import com.example.teamtwelvebackend.activity.speedgame.domain.UserAnswer;
 import com.example.teamtwelvebackend.activity.speedgame.repository.UserNicknameRepository;
@@ -9,7 +8,6 @@ import com.example.teamtwelvebackend.activity.speedgame.repository.RoomRepositor
 import com.example.teamtwelvebackend.activity.speedgame.repository.UserAnswerRepository;
 import com.example.teamtwelvebackend.activity.speedgame.service.dto.RoomDto;
 import com.example.teamtwelvebackend.ws.ParticipantService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

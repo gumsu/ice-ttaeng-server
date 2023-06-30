@@ -1,7 +1,7 @@
 package com.example.teamtwelvebackend.activity.speedgame.service;
 
 import com.example.teamtwelvebackend.activity.speedgame.controller.rest.request.SpeedGameCreateRequest;
-import com.example.teamtwelvebackend.activity.speedgame.controller.ws.Participant;
+import com.example.teamtwelvebackend.ws.Participant;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.AnswerMessage;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.QuestionMessage;
