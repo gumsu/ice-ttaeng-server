@@ -1,5 +1,7 @@
 package com.example.teamtwelvebackend.activity.speedgame.service;
 
+import com.example.teamtwelvebackend.qr.NaverShortUrlService;
+import com.example.teamtwelvebackend.qr.ShortURLAndQrVO;
 import com.example.teamtwelvebackend.ws.Participant;
 import com.example.teamtwelvebackend.activity.speedgame.domain.SpeedGameRoom;
 import com.example.teamtwelvebackend.activity.speedgame.domain.UserAnswer;
@@ -9,6 +11,7 @@ import com.example.teamtwelvebackend.activity.speedgame.repository.UserAnswerRep
 import com.example.teamtwelvebackend.activity.speedgame.service.dto.RoomDto;
 import com.example.teamtwelvebackend.ws.ParticipantService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +24,11 @@ public class GuestService {
     final UserNicknameRepository userNicknameRepository;
 
     final ParticipantService participantService;
+    final NaverShortUrlService naverShortUrlService;
+
+
+    @Value("${service-url}")
+    private String serviceUrl;
 
     /**
      * 참가자가 정답을 제출하는 기능
@@ -47,8 +55,11 @@ public class GuestService {
         String simpDestination = "/topic/speedgame/"+roomName;
         List<Participant> participantList = participantService.getParticipant(simpDestination);
 
+        String roomUrl = "%s/speedgame/%s".formatted(serviceUrl, roomName);
+        ShortURLAndQrVO shortURLAndQrCode = naverShortUrlService.createShortURLAndQrCode(roomUrl);
+
         SpeedGameRoom gameSpeedGameRoom = roomRepository.findByName(roomName).orElseThrow();
-        return new RoomDto(gameSpeedGameRoom.getName(), gameSpeedGameRoom.getName(), participantList.size());
+        return new RoomDto(gameSpeedGameRoom.getName(), gameSpeedGameRoom.getName(), shortURLAndQrCode.getUrl(), shortURLAndQrCode.getQr(), participantList.size());
     }
 
 }

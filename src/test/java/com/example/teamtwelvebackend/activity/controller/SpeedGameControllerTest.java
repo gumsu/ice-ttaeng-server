@@ -157,7 +157,7 @@ class SpeedGameControllerTest {
     void roomInfo() throws Exception {
         String roomName = UUID.randomUUID().toString();
         when(guestService.getRoomDtoByName(eq(roomName)))
-                .thenReturn(new RoomDto(roomName, roomName, 1));
+                .thenReturn(new RoomDto(roomName, roomName, "short-url", "qr-url", 1));
 
         ResultActions result = mockMvc.perform(RestDocumentationRequestBuilders.
                 get("/activity/speedgame/{roomName}", roomName));

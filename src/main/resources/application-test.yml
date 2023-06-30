@@ -18,3 +18,5 @@ websocket:
 
 naver-client-id: ''
 naver-client-secret: ''
+
+service-url: https://bside1512.dev
