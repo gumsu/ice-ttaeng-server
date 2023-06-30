@@ -30,6 +30,6 @@ public class SpeedGameController {
     @GetMapping("/{roomName}")
     public ResponseEntity<SpeedGameRoomResponse> getRoomInfo(@PathVariable String roomName) {
         RoomDto room = guestService.getRoomDtoByName(roomName);
-        return ResponseEntity.ok().body(new SpeedGameRoomResponse(room.roomName(), room.roomCode(), "https://qrimaagelink", "https://shortlink"));
+        return ResponseEntity.ok().body(new SpeedGameRoomResponse(room.roomName(), room.roomCode(), "https://qrimaagelink", "https://shortlink", room.participantCount()));
     }
 }

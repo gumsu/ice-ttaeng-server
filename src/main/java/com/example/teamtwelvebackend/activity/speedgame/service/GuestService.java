@@ -1,5 +1,6 @@
 package com.example.teamtwelvebackend.activity.speedgame.service;
 
+import com.example.teamtwelvebackend.activity.speedgame.controller.ws.Participant;
 import com.example.teamtwelvebackend.activity.speedgame.domain.UserNickname;
 import com.example.teamtwelvebackend.activity.speedgame.domain.SpeedGameRoom;
 import com.example.teamtwelvebackend.activity.speedgame.domain.UserAnswer;
@@ -7,9 +8,12 @@ import com.example.teamtwelvebackend.activity.speedgame.repository.UserNicknameR
 import com.example.teamtwelvebackend.activity.speedgame.repository.RoomRepository;
 import com.example.teamtwelvebackend.activity.speedgame.repository.UserAnswerRepository;
 import com.example.teamtwelvebackend.activity.speedgame.service.dto.RoomDto;
+import com.example.teamtwelvebackend.ws.ParticipantService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -17,6 +21,8 @@ public class GuestService {
     final RoomRepository roomRepository;
     final UserAnswerRepository userAnswerRepository;
     final UserNicknameRepository userNicknameRepository;
+
+    final ParticipantService participantService;
 
     /**
      * 참가자가 정답을 제출하는 기능
@@ -40,8 +46,11 @@ public class GuestService {
      * @return 방 참가 정보
      */
     public RoomDto getRoomDtoByName(String roomName) {
+        String simpDestination = "/topic/speedgame/"+roomName;
+        List<Participant> participantList = participantService.getParticipant(simpDestination);
+
         SpeedGameRoom gameSpeedGameRoom = roomRepository.findByName(roomName).orElseThrow();
-        return new RoomDto(gameSpeedGameRoom.getName(), gameSpeedGameRoom.getName());
+        return new RoomDto(gameSpeedGameRoom.getName(), gameSpeedGameRoom.getName(), participantList.size());
     }
 
 }

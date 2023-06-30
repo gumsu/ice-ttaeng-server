@@ -157,7 +157,7 @@ class SpeedGameControllerTest {
     void roomInfo() throws Exception {
         String roomName = UUID.randomUUID().toString();
         when(guestService.getRoomDtoByName(eq(roomName)))
-                .thenReturn(new RoomDto("sample-room", "sample-room"));
+                .thenReturn(new RoomDto(roomName, roomName, 1));
 
         ResultActions result = mockMvc.perform(RestDocumentationRequestBuilders.
                 get("/activity/speedgame/{roomName}", roomName));
@@ -171,6 +171,7 @@ class SpeedGameControllerTest {
                         responseFields(
                                 fieldWithPath("room_name").description("액티비티 방 이름"),
                                 fieldWithPath("room_code").description("액티비티 진입 코드"),
+                                fieldWithPath("participant_count").description("현재 방 참가 인원 수"),
                                 fieldWithPath("qr_code_image_url").description("QRcode 이미지 URL"),
                                 fieldWithPath("short_url").description("단축 URL")
                         )
