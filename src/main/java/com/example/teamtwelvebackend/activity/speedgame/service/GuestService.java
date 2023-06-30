@@ -44,15 +44,4 @@ public class GuestService {
         return new RoomDto(gameSpeedGameRoom.getName(), gameSpeedGameRoom.getName());
     }
 
-    /**
-     * 참가자가 입력한 닉네임과 웹소켓 세션 id 를 연결
-     *
-     * @param roomName 방 아이디
-     * @param sessionId 참가자 웹소켓 세션 id
-     * @param username 참가자가 입력한 닉네임
-     */
-    @Transactional
-    public void registerNickname(String roomName, String sessionId, String username) {
-        userNicknameRepository.save(new UserNickname(roomName, sessionId, username));
-    }
 }

@@ -10,6 +10,8 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
+import java.security.Principal;
+
 @Controller
 @RequiredArgsConstructor
 public class SpeedGameGuestController {
@@ -19,22 +21,6 @@ public class SpeedGameGuestController {
     // 토픽을 구독하는것으로 입장이 되는것인가?
     // 입장 코드 검사 로직이 필요하다. 아무 코드나 입력한다고 해서 입장이 되는것이 아님 -> 프론트에서?
 
-    /**
-     * 참가자 이름 입력
-     *
-     * @param roomName
-     * @param headerAccessor
-     * @param username
-     * @return
-     */
-    @MessageMapping("/speedgame/{roomName}/register-name")
-    @SendToUser("/queue/reply")
-    public ActivityRoomMessage registerName(@DestinationVariable String roomName,
-                                            SimpMessageHeaderAccessor headerAccessor,
-                                            String username) {
-        guestService.registerNickname(roomName, headerAccessor.getSessionId(), username);
-        return new ActivityRoomMessage("NAME_REGISTERED", "이름이 등록되었습니다", "{}");
-    }
 
     /**
      * 스피드게임 정답 제출
@@ -47,9 +33,9 @@ public class SpeedGameGuestController {
     @MessageMapping("/speedgame/{roomName}/submit-answer")
     @SendToUser("/queue/reply")
     public ActivityRoomMessage submitAnswer(@DestinationVariable String roomName,
-                                            SimpMessageHeaderAccessor headerAccessor,
+                                            Principal principal,
                                             SubmitAnswer answer) {
-        guestService.submitAnswer(roomName, headerAccessor.getSessionId(), answer.questionId(), answer.answerId());
+        guestService.submitAnswer(roomName, principal.getName(), answer.questionId(), answer.answerId());
         return new ActivityRoomMessage("ANSWER_SUBMITTED", "정답이 제출되었습니다", "{}");
     }
 }

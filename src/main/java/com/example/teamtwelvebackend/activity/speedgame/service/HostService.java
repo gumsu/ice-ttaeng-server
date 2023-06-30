@@ -1,12 +1,14 @@
 package com.example.teamtwelvebackend.activity.speedgame.service;
 
 import com.example.teamtwelvebackend.activity.speedgame.controller.rest.request.SpeedGameCreateRequest;
+import com.example.teamtwelvebackend.activity.speedgame.controller.ws.Participant;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.AnswerMessage;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.QuestionMessage;
 import com.example.teamtwelvebackend.activity.speedgame.domain.*;
 import com.example.teamtwelvebackend.activity.speedgame.repository.*;
 import com.example.teamtwelvebackend.activity.speedgame.service.dto.RoomCreatedDto;
+import com.example.teamtwelvebackend.ws.ParticipantService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ public class HostService {
 
     final UserAnswerRepository userAnswerRepository;
     final UserNicknameRepository userNicknameRepository;
+
+    final ParticipantService participantService;
 
 
     /**
@@ -99,8 +103,13 @@ public class HostService {
         List<String> correctAnswerText = question.getCorrectAnswer().stream().map(Answer::getAnswerText).toList();
 
         List<String> userIdList = userAnswerRepository.findByRoomNameAndQuestionIdAndAnswerId(roomName, question.getId(), answer.getId()).stream().map(UserAnswer::getUserId).toList();
-        List<String> users = userNicknameRepository.findByRoomNameAndSessionIdIn(roomName, userIdList)
-                .stream().map(UserNickname::getNickname).toList();
+
+        String simpDestination = "/topic/speedgame/"+roomName;
+        List<Participant> participant1 = participantService.getParticipant(simpDestination);
+        List<String> users = participant1.stream()
+                .filter(participant -> userIdList.contains(participant.getName()))
+                .map(participant -> participant.getNickname())
+                .toList();
         return new AnswerMessage(correctAnswerText, users);
     }
 }
