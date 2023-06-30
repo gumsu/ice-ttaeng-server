@@ -46,7 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @WebMvcTest(SpeedGameController.class)
 @ActiveProfiles("test")
-class SpeedGameControllerTest {
+class ThankCircleControllerTest {
     @TestConfiguration
     static class TestWebSecurityConfig {
         @Bean

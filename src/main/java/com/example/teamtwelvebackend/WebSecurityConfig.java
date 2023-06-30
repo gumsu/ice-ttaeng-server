@@ -48,7 +48,7 @@ public class WebSecurityConfig {
                     .requestMatchers("/", "/ws", "/ws/**", "/qr/**", "/docs/**", "/activities",
                             "/csrf",
                             "/app/**", "/user/**", "/topic/**",
-                            "/activity/speedgame/**", "/activity/moodcheckin/**")
+                            "/activity/speedgame/**", "/activity/moodcheckin/**", "/activity/thankcircle/**")
                         .permitAll()
                     .anyRequest()
                         .authenticated()

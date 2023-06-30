@@ -40,6 +40,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     final JwtAuthenticationProvider jwtAuthenticationProvider;
 
     public WebSocketConfig(JwtAuthenticationProvider jwtAuthenticationProvider) {
+        jwtAuthenticationProvider.setJwtAuthenticationConverter(new CustomJwtAuthenticationConverter());
         this.jwtAuthenticationProvider = jwtAuthenticationProvider;
     }
 
@@ -84,12 +85,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
                 }
 
-                // 참가자가 토픽을 구독할 때 닉네임이 있다면 등록 가능
-                if (StompCommand.SUBSCRIBE.equals(accessor.getCommand()) &&
-                    accessor.getHeader("simpUser") instanceof Participant participant) {
-                    List<String> header = accessor.getNativeHeader("nickname");
-                    if (header != null && !header.isEmpty()) {
-                        String nickname = header.get(0);
+                // 토픽을 구독할 때 닉네임이 있다면 등록 가능
+                List<String> nicknameHeader = accessor.getNativeHeader("nickname");
+                Object simpUser = accessor.getHeader("simpUser");
+                if (StompCommand.SUBSCRIBE.equals(accessor.getCommand()) && nicknameHeader != null && !nicknameHeader.isEmpty()) {
+                    String nickname = nicknameHeader.get(0);
+                    if (simpUser instanceof CustomJwtAuthenticationToken jwt) {
+                        jwt.setNickname(nickname);
+                    } else if (simpUser instanceof Participant participant) {
                         participant.setNickname(nickname);
                     }
                 }

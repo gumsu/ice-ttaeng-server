@@ -1,6 +1,6 @@
-package com.example.teamtwelvebackend.activity.speedgame.controller.rest.response;
+package com.example.teamtwelvebackend.activity.thankcircle.controller.rest.response;
 
-public record SpeedGameRoomResponse(
+public record RoomResponse(
         String roomName,
         String roomCode,
         String qrCodeImageUrl,
