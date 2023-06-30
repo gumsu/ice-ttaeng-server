@@ -1,6 +1,7 @@
 package com.example.teamtwelvebackend;
 
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.Participant;
+import com.example.teamtwelvebackend.ws.StompErrorHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -55,6 +56,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .setAllowedOriginPatterns(originPatterns.toArray(String[]::new))
                 .setHandshakeHandler(new AssignPrincipalHandshakeHandler())
                 .withSockJS();
+        registry.setErrorHandler(new StompErrorHandler());
     }
 
     public static class AssignPrincipalHandshakeHandler extends DefaultHandshakeHandler {
