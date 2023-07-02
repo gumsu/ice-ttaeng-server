@@ -21,8 +21,7 @@ public class NaverShortUrlService {
     @Value("${naver-client-secret}")
     private String clientSecret;
 
-    // TODO private
-    public NaverShortUrlDto naverShortUrlApi(String url) {
+    private NaverShortUrlDto naverShortUrlApi(String url) {
         String apiURL = NAVER_SHORT_API_URL + url;
 
         HttpHeaders headers = new HttpHeaders();

@@ -56,9 +56,6 @@ public class WebSocketEventListener {
 
         log.info("allUser: " + simpUserRegistry.getUserCount());
         log.info("subscriptions: " + subscriptions.size());
-
-        // TODO 접속 인원수 체크하기
-        simpMessageSendingOperations.convertAndSend(header.getDestination() + "/number", header.getSessionId());
     }
 
     @EventListener
