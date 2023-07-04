@@ -28,3 +28,11 @@ operation::moodcheckin-create[snippets='request-headers,http-request,response-fi
 === 기분체크인 방 조회
 
 operation::moodcheckin-get-info[snippets='path-parameters,http-request,response-fields,http-response']
+
+=== 감사 서클 만들기
+
+operation::thankcircle-create[snippets='request-headers,http-request,response-fields,http-response']
+
+=== 감사 서클 방 조회
+
+operation::thankcircle-get-info[snippets='path-parameters,http-request,response-fields,http-response']

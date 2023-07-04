@@ -1,10 +1,10 @@
 package com.example.teamtwelvebackend.activity.controller;
 
-import com.example.teamtwelvebackend.activity.thankcircle.service.TcGuestService;
-import com.example.teamtwelvebackend.activity.thankcircle.service.TcHostService;
-import com.example.teamtwelvebackend.activity.thankcircle.service.dto.RoomCreatedDto;
-import com.example.teamtwelvebackend.activity.thankcircle.service.dto.RoomDto;
-import com.example.teamtwelvebackend.activity.thankcircle.controller.rest.ThankCircleController;
+import com.example.teamtwelvebackend.activity.speedgame.service.HostService;
+import com.example.teamtwelvebackend.activity.speedgame.service.dto.RoomCreatedDto;
+import com.example.teamtwelvebackend.activity.speedgame.service.dto.RoomDto;
+import com.example.teamtwelvebackend.activity.speedgame.service.GuestService;
+import com.example.teamtwelvebackend.activity.speedgame.controller.rest.SpeedGameController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,9 +44,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureRestDocs
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
-@WebMvcTest(ThankCircleController.class)
+@WebMvcTest(SpeedGameController.class)
 @ActiveProfiles("test")
-class ThankCircleControllerTest {
+class SpeedGameControllerTest {
     @TestConfiguration
     static class TestWebSecurityConfig {
         @Bean
@@ -60,13 +60,13 @@ class ThankCircleControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    TcHostService service;
+    HostService service;
 
     @MockBean
-    TcGuestService guestService;
+    GuestService guestService;
 
     @Test
-    @DisplayName("감사 서클 방 만들기")
+    @DisplayName("스피드게임 방 만들기")
     void createRoom() throws Exception {
         String userName = "google_118339889321875083261";
         String userId = "204c3264-77d5-4ac7-b776-4be9921535ee";
@@ -74,22 +74,75 @@ class ThankCircleControllerTest {
                 .claim("username", userName)
                 .claim("sub", userId);
 
-        when(service.createRoom(eq(userId)))
+        String request = """
+                {
+                    "questions": [
+                        {
+                            "number": 1,
+                            "question_text": "질문 내용",
+                            "answers": [
+                                {
+                                    "number": 1,
+                                    "answer_text": "대답 1",
+                                    "correct_answer": true
+                                },
+                                {
+                                    "number": 2,
+                                    "answer_text": "대답 2",
+                                    "correct_answer": false
+                                },
+                                {
+                                    "number": 3,
+                                    "answer_text": "대답 3",
+                                    "correct_answer": false
+                                }
+                            ]
+                        },
+                        {
+                            "number": 2,
+                            "question_text": "질문 내용 2",
+                            "answers": [
+                                {
+                                    "number": 1,
+                                    "answer_text": "대답 2-1",
+                                    "correct_answer": false
+                                },
+                                {
+                                    "number": 2,
+                                    "answer_text": "대답 2-2",
+                                    "correct_answer": true
+                                }
+                            ]
+                        }
+                    ]
+                }
+                """;
+
+
+        when(service.createRoom(eq(userId), Mockito.any()))
                 .thenReturn(new RoomCreatedDto("sample-room", "sample-room"));
 
         ResultActions result = mockMvc.perform(
-                RestDocumentationRequestBuilders.post("/activity/thankcircle")
+                RestDocumentationRequestBuilders.post("/activity/speedgame")
                         .header("Authorization", "Bearer access_token")
                         .with(SecurityMockMvcRequestPostProcessors.jwt().jwt(jwtConsumer))
+                .content(request)
                 .contentType(MediaType.APPLICATION_JSON));
 
         // then
         result.andExpect(status().isOk())
-                .andDo(document("thankcircle-create",
+                .andDo(document("speedgame-create",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName("Authorization").description("access token 이 필요합니다")),
+                        requestFields(
+                                fieldWithPath("questions.[].number").description("문제 순서"),
+                                fieldWithPath("questions.[].question_text").description("문제 내용"),
+                                fieldWithPath("questions.[].answers.[].number").description("대답 순서"),
+                                fieldWithPath("questions.[].answers.[].answer_text").description("대답 내용"),
+                                fieldWithPath("questions.[].answers.[].correct_answer").description("정답 여부")
+                        ),
                         responseFields(
                                 fieldWithPath("room_name").description("액티비티 방 이름"),
                                 fieldWithPath("room_code").description("액티비티 진입 코드")
@@ -100,18 +153,18 @@ class ThankCircleControllerTest {
     }
 
     @Test
-    @DisplayName("감사 서클 방 정보 조회")
+    @DisplayName("스피드게임 방 정보 조회")
     void roomInfo() throws Exception {
         String roomName = UUID.randomUUID().toString();
         when(guestService.getRoomDtoByName(eq(roomName)))
                 .thenReturn(new RoomDto(roomName, roomName, "short-url", "qr-url", 1));
 
         ResultActions result = mockMvc.perform(RestDocumentationRequestBuilders.
-                get("/activity/thankcircle/{roomName}", roomName));
+                get("/activity/speedgame/{roomName}", roomName));
 
         // then
         result.andExpect(status().isOk())
-                .andDo(document("thankcircle-get-info",
+                .andDo(document("speedgame-get-info",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(parameterWithName("roomName").description("액티비티 방 이름")),
