@@ -22,6 +22,8 @@ import com.example.teamtwelvebackend.activity.mininetworking.service.MiniNetwork
 import com.example.teamtwelvebackend.qr.NaverShortUrlService;
 import java.util.UUID;
 import java.util.function.Consumer;
+
+import com.example.teamtwelvebackend.qr.ShortURLAndQrVO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -104,6 +106,11 @@ class MiniNetworkingControllerTest {
     void getRoomInfo() throws Exception {
         String roomName = UUID.randomUUID().toString();
         when(miniNetworkingService.getRoomByName(roomName)).thenReturn(new MiniNetworkingRoom("user"));
+        when(naverShortUrlService.createShortURLAndQrCode("https://bside1512.dev/activity/mininetworking/" + roomName))
+                .thenReturn(ShortURLAndQrVO.builder()
+                        .url("short-url")
+                        .qr("qr-code")
+                        .build());
 
         ResultActions result = mockMvc.perform(RestDocumentationRequestBuilders.
             get("/activity/mininetworking/{roomName}", roomName));
