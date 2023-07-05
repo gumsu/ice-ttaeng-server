@@ -36,3 +36,11 @@ operation::thankcircle-create[snippets='request-headers,http-request,response-fi
 === 감사 서클 방 조회
 
 operation::thankcircle-get-info[snippets='path-parameters,http-request,response-fields,http-response']
+
+=== 미니 네트워킹 만들기
+
+operation::mininetworking-create[snippets='request-headers,http-request,response-fields,http-response']
+
+=== 미니 네트워킹 방 조회
+
+operation::mininetworking-get-info[snippets='path-parameters,http-request,response-fields,http-response']
