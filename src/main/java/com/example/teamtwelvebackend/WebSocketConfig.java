@@ -92,8 +92,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                     String nickname = nicknameHeader.get(0);
                     if (simpUser instanceof CustomJwtAuthenticationToken jwt) {
                         jwt.setNickname(nickname);
+                        jwt.addDestination(accessor.getSubscriptionId(), accessor.getDestination());
                     } else if (simpUser instanceof Participant participant) {
                         participant.setNickname(nickname);
+                        participant.addDestination(accessor.getSubscriptionId(), accessor.getDestination());
                     }
                 }
 
