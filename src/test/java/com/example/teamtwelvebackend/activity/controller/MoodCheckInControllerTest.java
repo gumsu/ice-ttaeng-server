@@ -19,6 +19,7 @@ import com.example.teamtwelvebackend.activity.moodcheckin.controller.rest.MoodCh
 import com.example.teamtwelvebackend.activity.moodcheckin.domain.MoodCheckInRoom;
 import com.example.teamtwelvebackend.activity.moodcheckin.service.MoodCheckInService;
 import com.example.teamtwelvebackend.qr.NaverShortUrlService;
+import com.example.teamtwelvebackend.qr.ShortURLAndQrVO;
 import java.util.UUID;
 import java.util.function.Consumer;
 import org.junit.jupiter.api.DisplayName;
@@ -103,6 +104,11 @@ class MoodCheckInControllerTest {
     void roomInfo() throws Exception {
         String roomName = UUID.randomUUID().toString();
         when(moodCheckInService.getRoomByName(roomName)).thenReturn(new MoodCheckInRoom("user"));
+        when(naverShortUrlService.createShortURLAndQrCode("https://bside1512.dev/activity/moodcheckin/" + roomName))
+            .thenReturn(ShortURLAndQrVO.builder()
+                .url("short_url")
+                .qr("qr-code")
+                .build());
 
         ResultActions result = mockMvc.perform(RestDocumentationRequestBuilders.
             get("/activity/moodcheckin/{roomName}", roomName));

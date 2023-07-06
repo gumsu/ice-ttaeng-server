@@ -6,7 +6,10 @@ import com.example.teamtwelvebackend.activity.moodcheckin.domain.RoomStatus;
 import com.example.teamtwelvebackend.activity.moodcheckin.repository.MoodCheckInUserNicknameRepository;
 import com.example.teamtwelvebackend.activity.moodcheckin.repository.MoodCheckInRoomRepository;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
+import com.example.teamtwelvebackend.ws.Participant;
+import com.example.teamtwelvebackend.ws.ParticipantService;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,8 @@ public class MoodCheckInService {
 
     private final MoodCheckInUserNicknameRepository moodCheckInUserNicknameRepository;
     private final MoodCheckInRoomRepository moodCheckInRoomRepository;
+
+    private final ParticipantService participantService;
 
     @Transactional
     public MoodCheckInRoom createRoom(String userName) {
@@ -31,13 +36,21 @@ public class MoodCheckInService {
     }
 
     @Transactional
-    public ActivityRoomMessage proceed(String roomName) {
+    public ActivityRoomMessage proceed(String roomName, String creatorId) {
         MoodCheckInRoom moodCheckInRoom = getRoomByName(roomName);
 
+        if (!moodCheckInRoom.getCreatedBy().equals(creatorId)) {
+            throw new IllegalStateException("방을 만든 사람이 아닙니다.");
+        }
         RoomStatus status = moodCheckInRoom.next();
         switch (status) {
             case CREATED_ROOM -> {
                 throw new IllegalStateException("초기 상태로 돌아올 수 없음");
+            }
+            case WAITING -> {
+                List<Participant> participants = participantService.getParticipant("/topic/moodcheckin/" + roomName);
+                participants.forEach(participant -> registerName(roomName, participant.getNickname(), participant.getSessionId()));
+                return new ActivityRoomMessage(status.toString(), "참여자를 기다리는 중", "");
             }
             case OPENED_AVERAGE -> {
                 Double average = getAverage(roomName);
@@ -62,10 +75,6 @@ public class MoodCheckInService {
             throw new RuntimeException("이미 등록된 게스트입니다.");
         }
         moodCheckInUserNicknameRepository.save(moodCheckInUserNickname);
-    }
-
-    public ActivityRoomMessage getGuestNumber(String roomName) {
-        return new ActivityRoomMessage("임시타입", "현재 참여한 게스트 숫자", moodCheckInUserNicknameRepository.countByRoomName(roomName));
     }
 
     @Transactional

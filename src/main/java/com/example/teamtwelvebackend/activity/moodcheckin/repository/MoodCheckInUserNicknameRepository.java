@@ -12,8 +12,6 @@ public interface MoodCheckInUserNicknameRepository extends JpaRepository<MoodChe
 
     Optional<MoodCheckInUserNickname> findBySessionId(String sessionId);
 
-    Long countByRoomName(String roomName);
-
     Integer countByRoomNameAndMoodNot(String roomName, Integer mood);
 
     @Query("SELECT AVG(m.mood) FROM MoodCheckInUserNickname m WHERE m.roomName = :room_name AND m.mood <> 0")

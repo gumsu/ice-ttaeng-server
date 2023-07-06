@@ -9,8 +9,11 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class Participant implements Principal {
-    final String id;
-    String nickname;
+    private final String id;
+    private String nickname;
+    private String sessionId = null;
+
+    Map<String, String> destinations = new HashMap<>();
 
     Map<String, String> destinations = new HashMap<>();
 
@@ -23,8 +26,16 @@ public class Participant implements Principal {
         return nickname;
     }
 
+    public String getSessionId() {
+        return sessionId;
+    }
+
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     @Override

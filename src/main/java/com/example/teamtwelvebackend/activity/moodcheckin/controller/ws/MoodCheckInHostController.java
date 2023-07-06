@@ -2,6 +2,7 @@ package com.example.teamtwelvebackend.activity.moodcheckin.controller.ws;
 
 import com.example.teamtwelvebackend.activity.moodcheckin.service.MoodCheckInService;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
+import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -18,8 +19,8 @@ public class MoodCheckInHostController {
 
     @MessageMapping("/moodcheckin/{roomName}/start")
     @SendTo("/topic/moodcheckin/{roomName}")
-    public ActivityRoomMessage start(@DestinationVariable(value = "roomName") String roomName) {
-        return moodCheckInService.proceed(roomName);
+    public ActivityRoomMessage start(@DestinationVariable(value = "roomName") String roomName, Principal principal) {
+        return moodCheckInService.proceed(roomName, principal.getName());
     }
 
     @MessageMapping("/moodcheckin/{roomName}/random")

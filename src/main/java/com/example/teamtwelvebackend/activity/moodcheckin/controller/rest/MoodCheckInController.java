@@ -5,6 +5,7 @@ import com.example.teamtwelvebackend.activity.common.controller.response.MoodChe
 import com.example.teamtwelvebackend.activity.moodcheckin.domain.MoodCheckInRoom;
 import com.example.teamtwelvebackend.activity.moodcheckin.service.MoodCheckInService;
 import com.example.teamtwelvebackend.qr.NaverShortUrlService;
+import com.example.teamtwelvebackend.qr.ShortURLAndQrVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -33,13 +34,12 @@ public class MoodCheckInController {
     @GetMapping("/{roomName}")
     public ResponseEntity<MoodCheckInRoomResponse> getRoomInfo(@PathVariable String roomName) {
         MoodCheckInRoom roomByName = moodCheckInService.getRoomByName(roomName);
-//        ShortURLAndQrVO shortURLAndQrCode = naverShortUrlService.createShortURLAndQrCode(
-//            "http://api.bside1512.dev/activity/moodcheckin/" + roomName);
+        ShortURLAndQrVO shortURLAndQrCode = naverShortUrlService.createShortURLAndQrCode("https://bside1512.dev/activity/moodcheckin/" + roomName);
         MoodCheckInRoomResponse moodCheckInRoomResponse = MoodCheckInRoomResponse.builder()
             .roomName(roomByName.getName())
             .roomCode(roomByName.getName())
-            .qrCodeImageUrl("qr-code")
-            .shortUrl("short-url")
+            .qrCodeImageUrl(shortURLAndQrCode.getQr())
+            .shortUrl(shortURLAndQrCode.getUrl())
             .build();
         return ResponseEntity.ok().body(moodCheckInRoomResponse);
     }

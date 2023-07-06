@@ -42,4 +42,19 @@ public class ParticipantService {
                 .map(user -> user.getSession().getUser().getPrincipal())
                 .toList();
     }
+
+    /**
+     * 참가자 한 명만 조회
+     * @param destination 조회할 topic 경로
+     * @param userId 참가자 고유 아이디
+     * @return Participant
+     */
+    public Participant getParticipantOne(String destination, String userId) {
+        Set<SimpSubscription> subscriptions = simpUserRegistry.findSubscriptions(subscription -> subscription.getDestination().equals(destination));
+        return subscriptions.stream()
+            .filter(subscription -> subscription.getSession().getUser().getName().equals(userId))
+            .findFirst()
+            .map(user -> (Participant) user.getSession().getUser().getPrincipal())
+            .orElseThrow(() -> new RuntimeException("존재하지 않는 참가자입니다."));
+    }
 }

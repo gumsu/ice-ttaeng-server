@@ -96,6 +96,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                     } else if (simpUser instanceof Participant participant) {
                         participant.setNickname(nickname);
                         participant.addDestination(accessor.getSubscriptionId(), accessor.getDestination());
+                        participant.setSessionId(accessor.getSessionId());
                     }
                 }
 
