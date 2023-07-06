@@ -76,12 +76,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                         MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
                 if (StompCommand.CONNECT.equals(accessor.getCommand())) {
                     List<String> authorization = accessor.getNativeHeader("Authorization");
-                    String token = authorization.get(0);
-
-                    if (!token.isEmpty()) {
-                        BearerTokenAuthenticationToken bearerTokenAuthenticationToken = new BearerTokenAuthenticationToken(token);
-                        Authentication authenticate = jwtAuthenticationProvider.authenticate(bearerTokenAuthenticationToken);
-                        accessor.setUser(authenticate);
+                    if (authorization != null && !authorization.isEmpty()) {
+                        String token = authorization.get(0);
+                        if (token != null && !token.isEmpty()) {
+                            BearerTokenAuthenticationToken bearerTokenAuthenticationToken = new BearerTokenAuthenticationToken(token);
+                            Authentication authenticate = jwtAuthenticationProvider.authenticate(bearerTokenAuthenticationToken);
+                            accessor.setUser(authenticate);
+                        }
                     }
 
                 }
