@@ -1,5 +1,6 @@
 package com.example.teamtwelvebackend;
 
+import com.example.teamtwelvebackend.ws.ActivityParticipant;
 import com.example.teamtwelvebackend.ws.Participant;
 import com.example.teamtwelvebackend.ws.StompErrorHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -90,10 +91,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 Object simpUser = accessor.getHeader("simpUser");
                 if (StompCommand.SUBSCRIBE.equals(accessor.getCommand()) && nicknameHeader != null && !nicknameHeader.isEmpty()) {
                     String nickname = nicknameHeader.get(0);
-                    if (simpUser instanceof CustomJwtAuthenticationToken jwt) {
-                        jwt.setNickname(nickname);
-                        jwt.addDestination(accessor.getSubscriptionId(), accessor.getDestination());
-                    } else if (simpUser instanceof Participant participant) {
+                    if (simpUser instanceof ActivityParticipant participant) {
                         participant.setNickname(nickname);
                         participant.addDestination(accessor.getSubscriptionId(), accessor.getDestination());
                         participant.setSessionId(accessor.getSessionId());

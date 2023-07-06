@@ -5,7 +5,6 @@ import org.springframework.messaging.simp.user.SimpSubscription;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
@@ -37,9 +36,9 @@ public class ParticipantService {
      * @param destination 조회할 topic 경로
      * @return 구독자 전체 list
      */
-    public List<Principal> getAll(String destination) {
+    public List<ActivityParticipant> getAll(String destination) {
         return simpUserRegistry.findSubscriptions(subscription -> subscription.getDestination().equals(destination)).stream()
-                .map(user -> user.getSession().getUser().getPrincipal())
+                .map(user -> (ActivityParticipant) user.getSession().getUser().getPrincipal())
                 .toList();
     }
 

@@ -7,6 +7,7 @@ import com.example.teamtwelvebackend.activity.thankcircle.controller.ws.message.
 import com.example.teamtwelvebackend.activity.thankcircle.domain.*;
 import com.example.teamtwelvebackend.activity.thankcircle.repository.*;
 import com.example.teamtwelvebackend.activity.thankcircle.service.dto.RoomCreatedDto;
+import com.example.teamtwelvebackend.ws.ActivityParticipant;
 import com.example.teamtwelvebackend.ws.Participant;
 import com.example.teamtwelvebackend.ws.ParticipantService;
 import jakarta.transaction.Transactional;
@@ -103,16 +104,8 @@ public class TcHostService {
 
     private List<String> getParticipantList(String roomName) {
         String simpDestination = "/topic/thankcircle/"+roomName;
-        List<Principal> all = participantService.getAll(simpDestination);
-        return all.stream().map(principal -> {
-            if (principal instanceof Participant participant) {
-                return participant.getNickname();
-            } else if (principal instanceof CustomJwtAuthenticationToken token) {
-                return token.getNickname();
-            } else {
-                return principal.getName();
-            }
-        }).toList();
+        List<ActivityParticipant> all = participantService.getAll(simpDestination);
+        return all.stream().map(ActivityParticipant::getNickname).toList();
     }
 
     /**

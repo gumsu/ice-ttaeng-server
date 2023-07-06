@@ -1,6 +1,7 @@
 package com.example.teamtwelvebackend.ws;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 import javax.security.auth.Subject;
 import java.security.Principal;
@@ -8,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
-public class Participant implements Principal {
+public class Participant implements ActivityParticipant {
     private final String id;
     String nickname;
     private String sessionId = null;
@@ -35,12 +36,6 @@ public class Participant implements Principal {
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
-
-    @Override
-    public boolean implies(Subject subject) {
-        return Principal.super.implies(subject);
-    }
-
     public void addDestination(String id, String destination) {
         destinations.put(id, destination);
     }
