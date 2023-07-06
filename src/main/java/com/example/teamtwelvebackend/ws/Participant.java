@@ -10,10 +10,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class Participant implements Principal {
     private final String id;
-    private String nickname;
+    String nickname;
     private String sessionId = null;
-
-    Map<String, String> destinations = new HashMap<>();
 
     Map<String, String> destinations = new HashMap<>();
 
