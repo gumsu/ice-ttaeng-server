@@ -44,3 +44,9 @@ operation::mininetworking-create[snippets='request-headers,http-request,response
 === 미니 네트워킹 방 조회
 
 operation::mininetworking-get-info[snippets='path-parameters,http-request,response-fields,http-response']
+
+== 에러 케이스
+
+=== 액티비티 방을 조회할 수 없는 경우 (모든 액티비티 동일)
+
+operation::thankcircle-get-info-not-found[snippets='http-request,http-response']

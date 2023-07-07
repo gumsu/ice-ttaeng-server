@@ -27,6 +27,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -122,6 +123,27 @@ class ThankCircleControllerTest {
                                 fieldWithPath("qr_code_image_url").description("QRcode 이미지 URL"),
                                 fieldWithPath("short_url").description("단축 URL")
                         )
+                        )
+                )
+                .andDo(print());
+    }
+
+
+    @Test
+    @DisplayName("감사 서클 방 정보를 찾을 수 없는 경우")
+    void notFoundRoom() throws Exception {
+        String roomName = "does-not-exist-id";
+        when(guestService.getRoomDtoByName(eq(roomName)))
+                .thenThrow(NoSuchElementException.class);
+
+        ResultActions result = mockMvc.perform(RestDocumentationRequestBuilders.
+                get("/activity/thankcircle/{roomName}", roomName));
+
+        // then
+        result.andExpect(status().isNotFound())
+                .andDo(document("thankcircle-get-info-not-found",
+                                preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint())
                         )
                 )
                 .andDo(print());
