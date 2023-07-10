@@ -104,7 +104,7 @@ class MoodCheckInControllerTest {
     void roomInfo() throws Exception {
         String roomName = UUID.randomUUID().toString();
         when(moodCheckInService.getRoomByName(roomName)).thenReturn(new MoodCheckInRoom("user"));
-        when(naverShortUrlService.createShortURLAndQrCode("https://bside1512.dev/activity/moodcheckin/" + roomName))
+        when(naverShortUrlService.createShortURLAndQrCode("https://bside1512.dev/moodcheckin/" + roomName))
             .thenReturn(ShortURLAndQrVO.builder()
                 .url("short_url")
                 .qr("qr-code")
