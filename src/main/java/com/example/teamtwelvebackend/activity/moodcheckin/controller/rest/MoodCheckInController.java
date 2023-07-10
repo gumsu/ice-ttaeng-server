@@ -34,7 +34,7 @@ public class MoodCheckInController {
     @GetMapping("/{roomName}")
     public ResponseEntity<MoodCheckInRoomResponse> getRoomInfo(@PathVariable String roomName) {
         MoodCheckInRoom roomByName = moodCheckInService.getRoomByName(roomName);
-        ShortURLAndQrVO shortURLAndQrCode = naverShortUrlService.createShortURLAndQrCode("https://bside1512.dev/activity/moodcheckin/" + roomName);
+        ShortURLAndQrVO shortURLAndQrCode = naverShortUrlService.createShortURLAndQrCode("https://bside1512.dev/moodcheckin/" + roomName);
         MoodCheckInRoomResponse moodCheckInRoomResponse = MoodCheckInRoomResponse.builder()
             .roomName(roomByName.getName())
             .roomCode(roomByName.getName())
