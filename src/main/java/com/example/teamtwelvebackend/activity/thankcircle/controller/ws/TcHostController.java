@@ -5,9 +5,14 @@ import com.example.teamtwelvebackend.activity.thankcircle.controller.ws.message.
 import com.example.teamtwelvebackend.activity.thankcircle.service.TcHostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -46,4 +51,12 @@ public class TcHostController {
         return service.close(creatorId, roomName);
     }
 
+
+    @MessageExceptionHandler
+    @SendToUser("/queue/errors")
+    public Map<String, String> error(Exception ex) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("message", ex.getMessage());
+        return map;
+    }
 }
