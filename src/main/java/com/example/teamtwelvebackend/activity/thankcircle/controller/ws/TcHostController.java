@@ -4,6 +4,7 @@ import com.example.teamtwelvebackend.CustomJwtAuthenticationToken;
 import com.example.teamtwelvebackend.activity.thankcircle.controller.ws.message.ActivityRoomMessage;
 import com.example.teamtwelvebackend.activity.thankcircle.service.TcHostService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class TcHostController {
     final TcHostService service;
 
@@ -55,6 +57,8 @@ public class TcHostController {
     @MessageExceptionHandler
     @SendToUser("/queue/errors")
     public Map<String, String> error(Exception ex) {
+        ex.printStackTrace();
+        log.error(ex.getMessage());
         HashMap<String, String> map = new HashMap<>();
         map.put("message", ex.getMessage());
         return map;
