@@ -37,7 +37,7 @@ public class TcGuestService {
         String simpDestination = "/topic/thankcircle/"+roomName;
         List<Participant> participantList = participantService.getParticipant(simpDestination);
 
-        String roomUrl = "%s/speedgame/%s".formatted(serviceUrl, roomName);
+        String roomUrl = "%s/thankcircle/%s".formatted(serviceUrl, roomName);
         ShortURLAndQrVO shortURLAndQrCode = naverShortUrlService.createShortURLAndQrCode(roomUrl);
 
         ThankCircleRoom gameSpeedGameRoom = tcRoomRepository.findByName(roomName).orElseThrow();
