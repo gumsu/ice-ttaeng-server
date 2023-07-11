@@ -35,6 +35,7 @@ public class WebSocketSecurityConfig {
         messages
                 .nullDestMatcher().permitAll()
                 .simpMessageDestMatchers("/app/speedgame/*/start").authenticated()
+                .simpMessageDestMatchers("/app/thankcircle/*/start").authenticated()
                 .anyMessage().permitAll();
 
         return messages.build();
