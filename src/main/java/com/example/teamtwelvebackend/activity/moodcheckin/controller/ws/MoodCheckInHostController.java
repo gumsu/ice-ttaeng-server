@@ -1,5 +1,6 @@
 package com.example.teamtwelvebackend.activity.moodcheckin.controller.ws;
 
+import com.example.teamtwelvebackend.CustomJwtAuthenticationToken;
 import com.example.teamtwelvebackend.activity.moodcheckin.service.MoodCheckInService;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
 import java.security.Principal;
@@ -27,5 +28,19 @@ public class MoodCheckInHostController {
     @SendTo("/topic/moodcheckin/{roomName}")
     public ActivityRoomMessage random(@DestinationVariable(value = "roomName") String roomName) {
         return moodCheckInService.random(roomName);
+    }
+
+    /**
+     * 감사 서클 종료
+     * <p>
+     * 호스트 전용
+     *
+     * @return
+     */
+    @MessageMapping("/moodcheckin/{roomName}/close")
+    @SendTo("/topic/moodcheckin/{roomName}")
+    public ActivityRoomMessage close(CustomJwtAuthenticationToken principal, @DestinationVariable String roomName) {
+        String creatorId = principal.getName();
+        return moodCheckInService.close(creatorId, roomName);
     }
 }

@@ -1,22 +1,23 @@
 package com.example.teamtwelvebackend.activity.thankcircle.service;
 
-import com.example.teamtwelvebackend.CustomJwtAuthenticationToken;
 import com.example.teamtwelvebackend.activity.thankcircle.controller.ws.message.ActivityRoomMessage;
 import com.example.teamtwelvebackend.activity.thankcircle.controller.ws.message.ThankListMessage;
 import com.example.teamtwelvebackend.activity.thankcircle.controller.ws.message.ThankMessage;
-import com.example.teamtwelvebackend.activity.thankcircle.domain.*;
-import com.example.teamtwelvebackend.activity.thankcircle.repository.*;
+import com.example.teamtwelvebackend.activity.thankcircle.domain.TcRoomStatus;
+import com.example.teamtwelvebackend.activity.thankcircle.domain.ThankCircleFromTo;
+import com.example.teamtwelvebackend.activity.thankcircle.domain.ThankCircleRoom;
+import com.example.teamtwelvebackend.activity.thankcircle.repository.TcRoomRepository;
+import com.example.teamtwelvebackend.activity.thankcircle.repository.TcThanksFromToRepository;
 import com.example.teamtwelvebackend.activity.thankcircle.service.dto.RoomCreatedDto;
 import com.example.teamtwelvebackend.ws.ActivityParticipant;
-import com.example.teamtwelvebackend.ws.Participant;
 import com.example.teamtwelvebackend.ws.ParticipantService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -62,6 +63,9 @@ public class TcHostService {
             case READY -> {
                 // 메시지에 참가자(호스트 포함) 전체 목록을 보내야 함
                 List<String> list = getParticipantList(roomName);
+                if (list.size() <= 1) {
+                    throw new IllegalStateException("1명 이하일 경우 시작할 수 없습니다.");
+                }
                 generateThanksList(roomName, list);
                 thankCircleRoom.updateTotalCount(list.size());
                 tcRoomRepository.save(thankCircleRoom);

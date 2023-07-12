@@ -3,15 +3,16 @@ package com.example.teamtwelvebackend.activity.moodcheckin.service;
 import com.example.teamtwelvebackend.activity.moodcheckin.domain.MoodCheckInRoom;
 import com.example.teamtwelvebackend.activity.moodcheckin.domain.MoodCheckInUserNickname;
 import com.example.teamtwelvebackend.activity.moodcheckin.domain.RoomStatus;
-import com.example.teamtwelvebackend.activity.moodcheckin.repository.MoodCheckInUserNicknameRepository;
 import com.example.teamtwelvebackend.activity.moodcheckin.repository.MoodCheckInRoomRepository;
+import com.example.teamtwelvebackend.activity.moodcheckin.repository.MoodCheckInUserNicknameRepository;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
 import com.example.teamtwelvebackend.ws.Participant;
 import com.example.teamtwelvebackend.ws.ParticipantService;
 import jakarta.transaction.Transactional;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -99,5 +100,24 @@ public class MoodCheckInService {
 
     private MoodCheckInUserNickname getRandomGuest(String roomName) {
         return moodCheckInUserNicknameRepository.getRandomGuest(roomName);
+    }
+
+    /**
+     * 액티비티 종료
+     *
+     * @param creatorId
+     * @param roomName
+     * @return
+     */
+    @Transactional
+    public ActivityRoomMessage close(String creatorId, String roomName) {
+        MoodCheckInRoom moodCheckInRoom = getRoomByName(roomName);
+
+        if (!moodCheckInRoom.getCreatedBy().equals(creatorId)) {
+            throw new IllegalStateException("방을 만든 사람이 아닙니다.");
+        }
+
+        RoomStatus status = moodCheckInRoom.close();
+        return new ActivityRoomMessage(status.toString(), "", "{}");
     }
 }

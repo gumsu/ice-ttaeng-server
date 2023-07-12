@@ -1,17 +1,12 @@
 package com.example.teamtwelvebackend.activity.moodcheckin.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import java.util.UUID;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -46,6 +41,11 @@ public class MoodCheckInRoom {
         if (currentIndex < values.length - 1) {
             status = values[currentIndex + 1];
         }
+        return status;
+    }
+
+    public RoomStatus close() {
+        status = RoomStatus.CLOSED_ROOM;
         return status;
     }
 }
