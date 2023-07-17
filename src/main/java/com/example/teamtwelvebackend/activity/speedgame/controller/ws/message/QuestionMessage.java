@@ -4,7 +4,8 @@ import java.util.List;
 
 public record QuestionMessage(
     Long questionId,
-    Integer number,
+    Integer questionNumber,
+    Integer questionTotal,
     String questionText,
     List<Answer> answers
 

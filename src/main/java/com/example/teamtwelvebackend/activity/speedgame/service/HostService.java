@@ -71,9 +71,14 @@ public class HostService {
                 throw new IllegalStateException("초기 상태로 돌아올 수 없음");
             }
             case OPENED_QUESTION -> {
-                // 메시지에 문제를 실어 보내야함
-                QuestionMessage question = getQuestion(roomName, speedGameRoom.getCurrentQuestion());
-                return new ActivityRoomMessage(status.toString(), "", question);
+                Question question = questionRepository.findByRoomNameAndNumber(roomName, speedGameRoom.getCurrentQuestion())
+                        .orElseThrow();
+                String questionText = question.getQuestionText();
+                List<QuestionMessage.Answer> answers = question.getAnswers().stream()
+                        .map(answer -> new QuestionMessage.Answer(answer.getId(), answer.getNumber(), answer.getAnswerText())).toList();
+
+                QuestionMessage message = new QuestionMessage(question.getId(), speedGameRoom.getCurrentQuestion(), speedGameRoom.getTotalQuestion(), questionText, answers);
+                return new ActivityRoomMessage(status.toString(), "", message);
             }
             case OPENED_ANSWER -> {
                 // 메시지에 정답과 정답자를 실어 보내야 함
@@ -85,15 +90,6 @@ public class HostService {
             }
             default -> throw new IllegalStateException("Unexpected value: " + status);
         }
-    }
-
-    private QuestionMessage getQuestion(String roomName, int number) {
-        Question question = questionRepository.findByRoomNameAndNumber(roomName, number)
-                .orElseThrow();
-        String questionText = question.getQuestionText();
-        List<QuestionMessage.Answer> answers = question.getAnswers().stream()
-                .map(answer -> new QuestionMessage.Answer(answer.getId(), answer.getNumber(), answer.getAnswerText())).toList();
-        return new QuestionMessage(question.getId(), number, questionText, answers);
     }
 
     private AnswerMessage getAnswer(String roomName, int number) {
