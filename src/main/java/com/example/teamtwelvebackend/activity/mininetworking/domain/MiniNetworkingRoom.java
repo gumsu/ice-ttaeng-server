@@ -1,5 +1,6 @@
 package com.example.teamtwelvebackend.activity.mininetworking.domain;
 
+import static com.example.teamtwelvebackend.activity.mininetworking.domain.RoomStatus.CLOSED_ROOM;
 import static com.example.teamtwelvebackend.activity.mininetworking.domain.RoomStatus.CREATED_ROOM;
 
 import jakarta.persistence.Entity;
@@ -37,5 +38,18 @@ public class MiniNetworkingRoom {
         this.name = UUID.randomUUID().toString();
         this.status = CREATED_ROOM;
         this.createdBy = createdBy;
+    }
+
+    public RoomStatus next() {
+        if (this.status.equals(CLOSED_ROOM)) {
+            throw new RuntimeException("Cannot change status: already closed");
+        }
+
+        int currentIndex = status.ordinal();
+        RoomStatus[] values = RoomStatus.values();
+        if (currentIndex < values.length - 1) {
+            status = values[currentIndex + 1];
+        }
+        return status;
     }
 }
