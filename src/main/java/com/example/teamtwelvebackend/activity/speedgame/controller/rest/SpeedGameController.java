@@ -7,6 +7,7 @@ import com.example.teamtwelvebackend.activity.speedgame.service.GuestService;
 import com.example.teamtwelvebackend.activity.speedgame.service.HostService;
 import com.example.teamtwelvebackend.activity.speedgame.service.dto.RoomCreatedDto;
 import com.example.teamtwelvebackend.activity.speedgame.service.dto.RoomDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -21,7 +22,7 @@ public class SpeedGameController {
 
     @PostMapping
     public ResponseEntity<ActivityCreateResponse> createRoom(JwtAuthenticationToken principal,
-                                                             @RequestBody SpeedGameCreateRequest request) {
+                                                             @Valid @RequestBody SpeedGameCreateRequest request) {
         String name = principal.getName();// UUID, ex) 204c3264-77d5-4ac7-b776-4be9921535ee
         RoomCreatedDto room = service.createRoom(name, request);
         return ResponseEntity.ok().body(new ActivityCreateResponse(room.roomName(), room.roomCode()));

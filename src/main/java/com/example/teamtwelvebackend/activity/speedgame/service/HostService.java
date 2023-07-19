@@ -45,7 +45,7 @@ public class HostService {
         List<Question> questionList = questions.stream().map(question -> {
             String questionText = question.getQuestionText();
             List<SpeedGameCreateRequest.SpeedGameQuestion.Answer> answers = question.getAnswers();
-            return new Question(speedGameRoom.getName(), question.getOrder(), questionText, answers);
+            return new Question(speedGameRoom.getName(), question.getNumber(), questionText, answers);
         }).toList();
         questionRepository.saveAll(questionList);
 

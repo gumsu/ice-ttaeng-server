@@ -27,11 +27,14 @@ public class Question {
     List<Answer> answers;
 
     public Question(String roomName, Integer number, String questionText, List<SpeedGameCreateRequest.SpeedGameQuestion.Answer> answers) {
+        if (roomName == null || roomName.isEmpty()) {
+            throw new IllegalStateException("empty roomName");
+        }
         this.roomName = roomName;
         this.number = number;
         this.questionText = questionText;
         this.answers = answers.stream()
-                .map(answer -> new Answer(roomName, answer.getOrder(), answer.getAnswerText(), answer.getCorrectAnswer(), this))
+                .map(answer -> new Answer(roomName, answer.getNumber(), answer.getAnswerText(), answer.getCorrectAnswer(), this))
                 .toList();
     }
 
