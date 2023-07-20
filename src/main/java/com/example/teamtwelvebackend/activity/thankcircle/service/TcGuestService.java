@@ -1,5 +1,6 @@
 package com.example.teamtwelvebackend.activity.thankcircle.service;
 
+import com.example.teamtwelvebackend.activity.thankcircle.controller.ws.message.RoomInfoMessage;
 import com.example.teamtwelvebackend.activity.thankcircle.domain.ThankCircleRoom;
 import com.example.teamtwelvebackend.activity.thankcircle.repository.TcRoomRepository;
 import com.example.teamtwelvebackend.activity.thankcircle.service.dto.RoomDto;
@@ -42,6 +43,12 @@ public class TcGuestService {
 
         ThankCircleRoom gameSpeedGameRoom = tcRoomRepository.findByName(roomName).orElseThrow();
         return new RoomDto(gameSpeedGameRoom.getName(), gameSpeedGameRoom.getName(), shortURLAndQrCode.getUrl(), shortURLAndQrCode.getQr(), participantList.size());
+    }
+
+    public RoomInfoMessage getRoomInfoByName(String roomName) {
+        String simpDestination = "/topic/thankcircle/"+roomName;
+        List<Participant> participantList = participantService.getParticipant(simpDestination);
+        return new RoomInfoMessage(participantList.size());
     }
 
 }
