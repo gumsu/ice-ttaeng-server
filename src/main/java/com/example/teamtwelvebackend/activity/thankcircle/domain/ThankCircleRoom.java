@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Getter
 @Entity
 @NoArgsConstructor
@@ -23,12 +21,17 @@ public class ThankCircleRoom {
     Integer currentNumber = 0;
     Integer total;
 
+    String shortUrl;
+    String qrCode;
+
     String createdBy;
 
-    public ThankCircleRoom(String creatorId) {
+    public ThankCircleRoom(String creatorId, String uuid, String url, String qr) {
         createdBy = creatorId;
         status = TcRoomStatus.CREATED_ROOM;
-        name = UUID.randomUUID().toString();
+        name = uuid;
+        shortUrl = url;
+        qrCode = qr;
     }
 
     /**

@@ -9,23 +9,31 @@ import com.example.teamtwelvebackend.activity.thankcircle.domain.ThankCircleRoom
 import com.example.teamtwelvebackend.activity.thankcircle.repository.TcRoomRepository;
 import com.example.teamtwelvebackend.activity.thankcircle.repository.TcThanksFromToRepository;
 import com.example.teamtwelvebackend.activity.thankcircle.service.dto.RoomCreatedDto;
+import com.example.teamtwelvebackend.qr.NaverShortUrlService;
+import com.example.teamtwelvebackend.qr.ShortURLAndQrVO;
 import com.example.teamtwelvebackend.ws.ActivityParticipant;
 import com.example.teamtwelvebackend.ws.ParticipantService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
 public class TcHostService {
+    @Value("${service-url}")
+    private String serviceUrl;
+
     final TcRoomRepository tcRoomRepository;
     final TcThanksFromToRepository tcThanksFromToRepository;
 
     final ParticipantService participantService;
+    final NaverShortUrlService naverShortUrlService;
 
 
     /**
@@ -36,10 +44,13 @@ public class TcHostService {
      */
     @Transactional
     public RoomCreatedDto createRoom(String creatorId) {
+        String roomName = UUID.randomUUID().toString();
+        String roomUrl = "%s/thankcircle/%s".formatted(serviceUrl, roomName);
+        ShortURLAndQrVO vo = naverShortUrlService.createShortURLAndQrCode(roomUrl);
 
-        ThankCircleRoom thankCircleRoom = tcRoomRepository.save(new ThankCircleRoom(creatorId));
+        tcRoomRepository.save(new ThankCircleRoom(creatorId, roomName, vo.getUrl(), vo.getQr()));
 
-        return new RoomCreatedDto(thankCircleRoom.getName(), thankCircleRoom.getName());
+        return new RoomCreatedDto(roomName, roomName, vo.getUrl(), vo.getQr());
     }
 
     /**

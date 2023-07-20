@@ -76,7 +76,7 @@ class ThankCircleControllerTest {
                 .claim("sub", userId);
 
         when(service.createRoom(eq(userId)))
-                .thenReturn(new RoomCreatedDto("sample-room", "sample-room"));
+                .thenReturn(new RoomCreatedDto("sample-room-uuid", "sample-room-uuid", "https://me2.do/aldfjklka", "https://me2.do/aldfjklka.qr"));
 
         ResultActions result = mockMvc.perform(
                 RestDocumentationRequestBuilders.post("/activity/thankcircle")
