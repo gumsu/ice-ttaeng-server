@@ -9,6 +9,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
@@ -21,7 +22,7 @@ public class MoodCheckInGuestController {
     private final MoodCheckInService moodCheckInService;
 
     @MessageMapping("/moodcheckin/{roomName}/submit-mood")
-    @SendTo("/queue/reply")
+    @SendToUser("/queue/reply")
     public ActivityRoomMessage submitMoodCheckIn(@DestinationVariable(value = "roomName") String roomName, StompHeaderAccessor stompHeaderAccessor, SubmitMood submitMood) {
         moodCheckInService.updateMood(submitMood.mood(), stompHeaderAccessor.getSessionId());
         simpMessageSendingOperations.convertAndSend("/topic/moodcheckin/"+roomName, moodCheckInService.getSubmitNumber(roomName));
