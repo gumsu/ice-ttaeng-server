@@ -10,6 +10,7 @@ import com.example.teamtwelvebackend.activity.speedgame.repository.RoomRepositor
 import com.example.teamtwelvebackend.activity.speedgame.repository.UserAnswerRepository;
 import com.example.teamtwelvebackend.activity.speedgame.service.dto.RoomDto;
 import com.example.teamtwelvebackend.ws.ParticipantService;
+import com.example.teamtwelvebackend.ws.RoomInfoMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class GuestService {
+    public static final String ACTIVITY_TYPE = "speedgame";
     final RoomRepository roomRepository;
     final UserAnswerRepository userAnswerRepository;
     final UserNicknameRepository userNicknameRepository;
@@ -52,14 +54,19 @@ public class GuestService {
      * @return 방 참가 정보
      */
     public RoomDto getRoomDtoByName(String roomName) {
-        String simpDestination = "/topic/speedgame/"+roomName;
+        String simpDestination = "/topic/%s/%s".formatted(ACTIVITY_TYPE, roomName);
         List<Participant> participantList = participantService.getParticipant(simpDestination);
 
-        String roomUrl = "%s/speedgame/%s".formatted(serviceUrl, roomName);
+        String roomUrl = "%s/%s/%s".formatted(serviceUrl, ACTIVITY_TYPE, roomName);
         ShortURLAndQrVO shortURLAndQrCode = naverShortUrlService.createShortURLAndQrCode(roomUrl);
 
         SpeedGameRoom gameSpeedGameRoom = roomRepository.findByName(roomName).orElseThrow();
         return new RoomDto(gameSpeedGameRoom.getName(), gameSpeedGameRoom.getName(), shortURLAndQrCode.getUrl(), shortURLAndQrCode.getQr(), participantList.size());
     }
 
+    public RoomInfoMessage getRoomInfoByName(String roomName) {
+        String simpDestination = "/topic/%s/%s".formatted(ACTIVITY_TYPE, roomName);
+        List<Participant> participantList = participantService.getParticipant(simpDestination);
+        return new RoomInfoMessage(participantList.size());
+    }
 }

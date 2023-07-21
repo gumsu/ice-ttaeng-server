@@ -8,6 +8,7 @@ import com.example.teamtwelvebackend.activity.moodcheckin.repository.MoodCheckIn
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
 import com.example.teamtwelvebackend.ws.Participant;
 import com.example.teamtwelvebackend.ws.ParticipantService;
+import com.example.teamtwelvebackend.ws.RoomInfoMessage;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class MoodCheckInService {
+    public static final String ACTIVITY_TYPE = "moodcheckin";
 
     private final MoodCheckInUserNicknameRepository moodCheckInUserNicknameRepository;
     private final MoodCheckInRoomRepository moodCheckInRoomRepository;
@@ -119,5 +121,11 @@ public class MoodCheckInService {
 
         RoomStatus status = moodCheckInRoom.close();
         return new ActivityRoomMessage(status.toString(), "", "{}");
+    }
+
+    public RoomInfoMessage getRoomInfoByName(String roomName) {
+        String simpDestination = "/topic/%s/%s".formatted(ACTIVITY_TYPE, roomName);
+        List<Participant> participantList = participantService.getParticipant(simpDestination);
+        return new RoomInfoMessage(participantList.size());
     }
 }

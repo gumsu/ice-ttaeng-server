@@ -1,12 +1,12 @@
 package com.example.teamtwelvebackend.activity.speedgame.controller.ws;
 
-import com.example.teamtwelvebackend.activity.speedgame.service.GuestService;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.SubmitAnswer;
+import com.example.teamtwelvebackend.activity.speedgame.service.GuestService;
+import com.example.teamtwelvebackend.ws.RoomInfoMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
@@ -37,5 +37,12 @@ public class SpeedGameGuestController {
                                             SubmitAnswer answer) {
         guestService.submitAnswer(roomName, principal.getName(), answer.questionId(), answer.answerId());
         return new ActivityRoomMessage("ANSWER_SUBMITTED", "정답이 제출되었습니다", "{}");
+    }
+
+    @MessageMapping("/speedgame/{roomName}/get-info")
+    @SendToUser("/queue/reply")
+    public ActivityRoomMessage getRoomInfo(@DestinationVariable String roomName) {
+        RoomInfoMessage room = guestService.getRoomInfoByName(roomName);
+        return new ActivityRoomMessage("ROOM_INFO", "", room);
     }
 }

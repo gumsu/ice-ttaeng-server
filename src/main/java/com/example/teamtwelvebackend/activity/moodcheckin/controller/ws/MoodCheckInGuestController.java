@@ -3,6 +3,7 @@ package com.example.teamtwelvebackend.activity.moodcheckin.controller.ws;
 import com.example.teamtwelvebackend.activity.moodcheckin.controller.ws.message.SubmitMood;
 import com.example.teamtwelvebackend.activity.moodcheckin.service.MoodCheckInService;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
+import com.example.teamtwelvebackend.ws.RoomInfoMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -27,5 +28,12 @@ public class MoodCheckInGuestController {
         moodCheckInService.updateMood(submitMood.mood(), stompHeaderAccessor.getSessionId());
         simpMessageSendingOperations.convertAndSend("/topic/moodcheckin/"+roomName, moodCheckInService.getSubmitNumber(roomName));
         return new ActivityRoomMessage("ANSWER_SUBMITTED", "기분을 등록하였습니다.", "{}");
+    }
+
+    @MessageMapping("/moodcheckin/{roomName}/get-info")
+    @SendToUser("/queue/reply")
+    public ActivityRoomMessage getRoomInfo(@DestinationVariable String roomName) {
+        RoomInfoMessage room = moodCheckInService.getRoomInfoByName(roomName);
+        return new ActivityRoomMessage("ROOM_INFO", "", room);
     }
 }

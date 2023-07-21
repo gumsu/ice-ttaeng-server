@@ -1,8 +1,8 @@
-package com.example.teamtwelvebackend.activity.thankcircle.controller.ws;
+package com.example.teamtwelvebackend.activity.mininetworking.controller.ws;
 
-import com.example.teamtwelvebackend.activity.thankcircle.controller.ws.message.ActivityRoomMessage;
+import com.example.teamtwelvebackend.activity.mininetworking.controller.ws.message.ActivityRoomMessage;
+import com.example.teamtwelvebackend.activity.mininetworking.service.MiniNetworkingService;
 import com.example.teamtwelvebackend.ws.RoomInfoMessage;
-import com.example.teamtwelvebackend.activity.thankcircle.service.TcGuestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -11,13 +11,13 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 @RequiredArgsConstructor
-public class TcGuestController {
-    final TcGuestService tcGuestService;
+public class MiniNetworkingGuestController {
+    private final MiniNetworkingService miniNetworkingService;
 
-    @MessageMapping("/thankcircle/{roomName}/get-info")
+    @MessageMapping("/mininetworking/{roomName}/get-info")
     @SendToUser("/queue/reply")
     public ActivityRoomMessage getRoomInfo(@DestinationVariable String roomName) {
-        RoomInfoMessage room = tcGuestService.getRoomInfoByName(roomName);
+        RoomInfoMessage room = miniNetworkingService.getRoomInfoByName(roomName);
         return new ActivityRoomMessage("ROOM_INFO", "", room);
     }
 }

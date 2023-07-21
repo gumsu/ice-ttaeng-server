@@ -9,6 +9,7 @@ import com.example.teamtwelvebackend.activity.mininetworking.repository.MiniNetw
 import com.example.teamtwelvebackend.activity.mininetworking.repository.MiniNetworkingRoomRepository;
 import com.example.teamtwelvebackend.ws.Participant;
 import com.example.teamtwelvebackend.ws.ParticipantService;
+import com.example.teamtwelvebackend.ws.RoomInfoMessage;
 import jakarta.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class MiniNetworkingService {
+    public static final String ACTIVITY_TYPE = "mininetworking";
 
     private final MiniNetworkingRoomRepository miniNetworkingRoomRepository;
     private final MiniNetworkingGroupingRepository miniNetworkingGroupingRepository;
@@ -130,5 +132,10 @@ public class MiniNetworkingService {
 
     private List<Participant> getParticipantList(String roomName) {
         return participantService.getParticipant("/topic/mininetworking/" + roomName);
+    }
+
+    public RoomInfoMessage getRoomInfoByName(String roomName) {
+        int count = getParticipantList(roomName).size();
+        return new RoomInfoMessage(count);
     }
 }

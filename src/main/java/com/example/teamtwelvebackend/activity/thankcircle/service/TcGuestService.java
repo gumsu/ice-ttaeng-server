@@ -1,6 +1,6 @@
 package com.example.teamtwelvebackend.activity.thankcircle.service;
 
-import com.example.teamtwelvebackend.activity.thankcircle.controller.ws.message.RoomInfoMessage;
+import com.example.teamtwelvebackend.ws.RoomInfoMessage;
 import com.example.teamtwelvebackend.activity.thankcircle.domain.ThankCircleRoom;
 import com.example.teamtwelvebackend.activity.thankcircle.repository.TcRoomRepository;
 import com.example.teamtwelvebackend.activity.thankcircle.service.dto.RoomDto;
@@ -14,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class TcGuestService {
+    public static final String ACTIVITY_TYPE = "thankcircle";
     final TcRoomRepository tcRoomRepository;
 
     final ParticipantService participantService;
@@ -27,7 +28,7 @@ public class TcGuestService {
      * @return 방 참가 정보
      */
     public RoomDto getRoomDtoByName(String roomName) {
-        String simpDestination = "/topic/thankcircle/"+roomName;
+        String simpDestination = "/topic/%s/%s".formatted(ACTIVITY_TYPE, roomName);
         List<Participant> participantList = participantService.getParticipant(simpDestination);
 
         ThankCircleRoom room = tcRoomRepository.findByName(roomName).orElseThrow();
@@ -35,7 +36,7 @@ public class TcGuestService {
     }
 
     public RoomInfoMessage getRoomInfoByName(String roomName) {
-        String simpDestination = "/topic/thankcircle/"+roomName;
+        String simpDestination = "/topic/%s/%s".formatted(ACTIVITY_TYPE, roomName);
         List<Participant> participantList = participantService.getParticipant(simpDestination);
         return new RoomInfoMessage(participantList.size());
     }
