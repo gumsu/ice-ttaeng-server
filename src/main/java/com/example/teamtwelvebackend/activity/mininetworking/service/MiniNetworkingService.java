@@ -55,9 +55,6 @@ public class MiniNetworkingService {
             case CREATED_ROOM -> {
                 throw new IllegalStateException("초기 상태로 돌아올 수 없음");
             }
-            case WAITING -> {
-                return new ActivityRoomMessage(status.toString(), "참여자를 기다리는 중", "");
-            }
             case OPENED_PARTICIPANT_LIST -> {
                 List<Participant> participants = getParticipantList(roomName);
                 List<String> participantList = participants.stream()
