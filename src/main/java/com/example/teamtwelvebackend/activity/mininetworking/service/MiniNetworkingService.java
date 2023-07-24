@@ -89,9 +89,9 @@ public class MiniNetworkingService {
     public void createParticipantGroups(String roomName, SubmitGroupingSize number) {
         List<Participant> participants = getParticipantList(roomName);
         int totalParticipant = participants.size();
-        int numberOfGroup = totalParticipant / number.getParseIntegerNumber();
+        int numberOfGroup = number.getParseIntegerNumber(); // 입력 값은 그룹의 갯수
         int remainder = totalParticipant % number.getParseIntegerNumber();
-        int groupSize = number.getParseIntegerNumber();
+        int groupSize = totalParticipant / number.getParseIntegerNumber(); // 그룹의 크기는 참가자 수와 그룹의 갯수에 따라 균등하지 않을 수 있따
 
         int startIndex = 0;
         int endIndex;
