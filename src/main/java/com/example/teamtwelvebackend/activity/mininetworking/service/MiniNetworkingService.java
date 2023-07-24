@@ -72,7 +72,11 @@ public class MiniNetworkingService {
 
                     for (Entry<String, String> entrySet : participantSessionIdAndNickName.entrySet()) {
                         System.out.println(entrySet.getKey() + " : " + entrySet.getValue());
-                        messagingTemplate.convertAndSendToUser(entrySet.getKey(),"/queue/reply",entrySet.getValue());
+                        Map<String, String> map = new HashMap<>();
+                        map.put("nickname", entrySet.getValue());
+                        map.put("group", findByRoomName.getGroupName());
+                        ActivityRoomMessage message = new ActivityRoomMessage("GROUPING_RESULT", "", map);
+                        messagingTemplate.convertAndSendToUser(entrySet.getKey(),"/queue/reply", message);
                     }
                 }
                 return new ActivityRoomMessage(status.toString(), "", "");
@@ -98,7 +102,7 @@ public class MiniNetworkingService {
             List<Participant> participantsubList = participants.subList(startIndex, endIndex);
             for (Participant participant : participantsubList) {
                 HashMap<String, String> participantSessionIdAndNickName = new HashMap<>();
-                participantSessionIdAndNickName.put(participant.getSessionId(), participant.getNickname());
+                participantSessionIdAndNickName.put(participant.getName(), participant.getNickname());
 
                 MiniNetworkingGrouping miniNetworkingGrouping = MiniNetworkingGrouping.builder()
                     .roomName(roomName)
@@ -116,7 +120,7 @@ public class MiniNetworkingService {
             List<Participant> participantsubList = participants.subList(startIndex, endIndex);
             for (Participant participant : participantsubList) {
                 HashMap<String, String> participantSessionIdAndNickName = new HashMap<>();
-                participantSessionIdAndNickName.put(participant.getSessionId(), participant.getNickname());
+                participantSessionIdAndNickName.put(participant.getName(), participant.getNickname());
 
                 MiniNetworkingGrouping miniNetworkingGrouping = MiniNetworkingGrouping.builder()
                     .roomName(roomName)
