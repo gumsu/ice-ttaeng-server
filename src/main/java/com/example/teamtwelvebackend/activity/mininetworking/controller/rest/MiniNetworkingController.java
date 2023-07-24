@@ -33,12 +33,12 @@ public class MiniNetworkingController {
     @GetMapping("/{roomName}")
     public ResponseEntity<MiniNetworkingRoomResponse> getRoomInfo(@PathVariable String roomName) {
         MiniNetworkingRoom roomByName = miniNetworkingService.getRoomByName(roomName);
-        ShortURLAndQrVO shortURLAndQrCode = naverShortUrlService.createShortURLAndQrCode("https://bside1512.dev/activity/mininetworking/" + roomName);
+        ShortURLAndQrVO shortURLAndQrCode = naverShortUrlService.createShortURLAndQrCode("https://bside1512.dev/mininetworking/" + roomName);
         MiniNetworkingRoomResponse miniNetworkingRoomResponse = MiniNetworkingRoomResponse.builder()
             .roomName(roomByName.getName())
             .roomCode(roomByName.getName())
-            .qrCodeImageUrl(shortURLAndQrCode.getUrl())
-            .shortUrl(shortURLAndQrCode.getQr())
+            .qrCodeImageUrl(shortURLAndQrCode.getQr())
+            .shortUrl(shortURLAndQrCode.getUrl())
             .build();
         return ResponseEntity.ok().body(miniNetworkingRoomResponse);
     }

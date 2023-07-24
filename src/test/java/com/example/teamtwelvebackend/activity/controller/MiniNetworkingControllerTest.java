@@ -106,7 +106,7 @@ class MiniNetworkingControllerTest {
     void getRoomInfo() throws Exception {
         String roomName = UUID.randomUUID().toString();
         when(miniNetworkingService.getRoomByName(roomName)).thenReturn(new MiniNetworkingRoom("user"));
-        when(naverShortUrlService.createShortURLAndQrCode("https://bside1512.dev/activity/mininetworking/" + roomName))
+        when(naverShortUrlService.createShortURLAndQrCode("https://bside1512.dev/mininetworking/" + roomName))
                 .thenReturn(ShortURLAndQrVO.builder()
                         .url("short-url")
                         .qr("qr-code")
