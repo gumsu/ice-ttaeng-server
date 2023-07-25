@@ -14,4 +14,6 @@ public interface ActivityParticipant extends Principal {
     String getNickname();
 
     String removeDestinationBySubscriptionId(String subscriptionId);
+
+    String getSessionId();
 }

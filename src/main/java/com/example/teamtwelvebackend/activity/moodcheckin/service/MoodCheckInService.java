@@ -6,6 +6,7 @@ import com.example.teamtwelvebackend.activity.moodcheckin.domain.RoomStatus;
 import com.example.teamtwelvebackend.activity.moodcheckin.repository.MoodCheckInRoomRepository;
 import com.example.teamtwelvebackend.activity.moodcheckin.repository.MoodCheckInUserNicknameRepository;
 import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
+import com.example.teamtwelvebackend.ws.ActivityParticipant;
 import com.example.teamtwelvebackend.ws.Participant;
 import com.example.teamtwelvebackend.ws.ParticipantService;
 import com.example.teamtwelvebackend.ws.RoomInfoMessage;
@@ -51,7 +52,7 @@ public class MoodCheckInService {
                 throw new IllegalStateException("초기 상태로 돌아올 수 없음");
             }
             case WAITING -> {
-                List<Participant> participants = participantService.getParticipant("/topic/moodcheckin/" + roomName);
+                List<ActivityParticipant> participants = participantService.getAll("/topic/moodcheckin/" + roomName);
                 participants.forEach(participant -> registerName(roomName, participant.getNickname(), participant.getSessionId()));
                 return new ActivityRoomMessage(status.toString(), "참여자를 기다리는 중", "");
             }
