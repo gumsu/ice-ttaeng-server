@@ -81,6 +81,9 @@ public class MiniNetworkingService {
                 }
                 return new ActivityRoomMessage(status.toString(), "", "");
             }
+            case CLOSED_ROOM -> {
+                return new ActivityRoomMessage(status.toString(), "", "{}");
+            }
             default -> throw new IllegalStateException("Unexpected value: " + status);
         }
     }
