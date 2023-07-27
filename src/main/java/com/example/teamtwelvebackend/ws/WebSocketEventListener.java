@@ -5,15 +5,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
-import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.*;
 
-import java.security.Principal;
-import java.util.List;
+import java.util.Objects;
 
 @Component
 @Slf4j
@@ -22,7 +19,6 @@ public class WebSocketEventListener {
     final ParticipantService participantService;
 
     private final SimpMessagingTemplate template;
-    private final SimpMessageSendingOperations simpMessageSendingOperations;
 
     @EventListener
     public void handleSessionConnectEvent(SessionConnectEvent sessionConnectEvent) {
@@ -45,8 +41,14 @@ public class WebSocketEventListener {
         log.info("SessionSubscribeEvent " + message);
 
         if (event.getUser() instanceof ActivityParticipant participant) {
-            List<ActivityParticipant> all = participantService.getAll(destination);
-            RoomParticipantChangedMessage payload = new RoomParticipantChangedMessage(participant.getNickname(), all.size());
+            int count;
+            if (Objects.requireNonNull(destination).contains("/speedgame")) {
+                // 스피드게임의 경우 주최자는 참가하지 않으므로 제외
+                count = participantService.getParticipant(destination).size();
+            } else {
+                count = participantService.getAll(destination).size();
+            }
+            RoomParticipantChangedMessage payload = new RoomParticipantChangedMessage(participant.getNickname(), count);
             template.convertAndSend(destination+"/user-count", new ActivityRoomMessage("ack_user", participant.getNickname() + "님이 입장했습니다.", payload));
         }
     }
@@ -60,8 +62,14 @@ public class WebSocketEventListener {
 
         if (event.getUser() instanceof ActivityParticipant participant) {
             String destination = participant.removeDestinationBySubscriptionId(header.getSubscriptionId());
-            List<ActivityParticipant> all = participantService.getAll(destination);
-            RoomParticipantChangedMessage payload = new RoomParticipantChangedMessage(participant.getNickname(), all.size());
+            int count;
+            if (Objects.requireNonNull(destination).contains("/speedgame")) {
+                // 스피드게임의 경우 주최자는 참가하지 않으므로 제외
+                count = participantService.getParticipant(destination).size();
+            } else {
+                count = participantService.getAll(destination).size();
+            }
+            RoomParticipantChangedMessage payload = new RoomParticipantChangedMessage(participant.getNickname(), count);
             template.convertAndSend(destination+"/user-count", new ActivityRoomMessage("ack_user", participant.getNickname() + "님이 퇴장했습니다.", payload));
         }
     }
@@ -72,8 +80,14 @@ public class WebSocketEventListener {
 
         if (event.getUser() instanceof ActivityParticipant participant) {
             participant.getDestinations().forEach((id, destination) -> {
-                List<ActivityParticipant> all = participantService.getAll(destination);
-                RoomParticipantChangedMessage payload = new RoomParticipantChangedMessage(participant.getNickname(), all.size());
+                int count;
+                if (Objects.requireNonNull(destination).contains("/speedgame")) {
+                    // 스피드게임의 경우 주최자는 참가하지 않으므로 제외
+                    count = participantService.getParticipant(destination).size();
+                } else {
+                    count = participantService.getAll(destination).size();
+                }
+                RoomParticipantChangedMessage payload = new RoomParticipantChangedMessage(participant.getNickname(), count);
                 template.convertAndSend(destination+"/user-count", new ActivityRoomMessage("ack_user", participant.getNickname() + "님이 퇴장했습니다.", payload));
             });
         }

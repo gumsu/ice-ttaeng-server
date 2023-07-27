@@ -57,12 +57,12 @@ class ActivityControllerTest {
 
         // given
         List<Activity> list = List.of(
-            new Activity(1L, 1,"스피드게임", "자유 퀴즈를 만들고 정답을 맞혀보세요", LocalDateTime.now()),
-            new Activity(2L, 2,"두 개의 진실 하나의 거짓말", "세 가지 정보 중 하나의 거짓을 찾아보세요", LocalDateTime.now()),
-            new Activity(3L, 3,"감사 서클", "참여자의 이름을 적어주세요", LocalDateTime.now()),
-            new Activity(4L, 4,"기분 체크인", "참여자의 오늘의 기분을 알아보세요!", LocalDateTime.now()),
-            new Activity(5L, 5,"미니 네트워킹", "그룹을 구성하여 네트워킹을 시작하세요", LocalDateTime.now()),
-            new Activity(6L, 6,"이미지 게임", "가장 ~ 할 것 같은 사람은?", LocalDateTime.now())
+            new Activity(1L, 1,"스피드게임", "자유 퀴즈를 만들고 정답을 맞혀보세요", -1, LocalDateTime.now()),
+            new Activity(2L, 2,"두 개의 진실 하나의 거짓말", "세 가지 정보 중 하나의 거짓을 찾아보세요", 1, LocalDateTime.now()),
+            new Activity(3L, 3,"감사 서클", "참여자의 이름을 적어주세요", 12, LocalDateTime.now()),
+            new Activity(4L, 4,"기분 체크인", "참여자의 오늘의 기분을 알아보세요!", 10, LocalDateTime.now()),
+            new Activity(5L, 5,"미니 네트워킹", "그룹을 구성하여 네트워킹을 시작하세요", -1, LocalDateTime.now()),
+            new Activity(6L, 6,"이미지 게임", "가장 ~ 할 것 같은 사람은?", 1, LocalDateTime.now())
         );
         BDDMockito.given(activityService.getAllActivity()).willReturn(list);
         ResultActions result = mockMvc.perform(get("/activities"));
@@ -75,7 +75,8 @@ class ActivityControllerTest {
                         responseFields(
                                 fieldWithPath("[].activity_id").description("액티비티 아이디"),
                                 fieldWithPath("[].display_name").description("액티비티 제목"),
-                                fieldWithPath("[].description").description("액티비티 설명")
+                                fieldWithPath("[].description").description("액티비티 설명"),
+                                fieldWithPath("[].number_of_person").description("액티비티 추천 인원 수")
                         )
                     )
                 )

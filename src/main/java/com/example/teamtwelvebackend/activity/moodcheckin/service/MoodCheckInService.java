@@ -126,7 +126,7 @@ public class MoodCheckInService {
 
     public RoomInfoMessage getRoomInfoByName(String roomName) {
         String simpDestination = "/topic/%s/%s".formatted(ACTIVITY_TYPE, roomName);
-        List<Participant> participantList = participantService.getParticipant(simpDestination);
+        List<ActivityParticipant> participantList = participantService.getAll(simpDestination);
         return new RoomInfoMessage(participantList.size());
     }
 }

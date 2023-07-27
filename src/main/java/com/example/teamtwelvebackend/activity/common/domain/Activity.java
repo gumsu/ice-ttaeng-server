@@ -21,13 +21,15 @@ public class Activity implements Comparable<Activity> {
     private Integer order;
     private String displayName;
     private String description;
+    private Integer numberOfPerson; // 추천 인원 수
     private LocalDateTime createdAt;
 
-    public Activity(Long id, Integer order, String displayName, String description, LocalDateTime createdAt) {
+    public Activity(Long id, Integer order, String displayName, String description, Integer numberOfPerson, LocalDateTime createdAt) {
         this.id = id;
         this.order = order;
         this.displayName = displayName;
         this.description = description;
+        this.numberOfPerson = numberOfPerson;
         this.createdAt = createdAt;
     }
 

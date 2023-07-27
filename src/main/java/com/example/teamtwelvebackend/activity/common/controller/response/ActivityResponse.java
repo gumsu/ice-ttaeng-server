@@ -8,10 +8,12 @@ public class ActivityResponse {
     private Long activityId;
     private String displayName;
     private String description;
+    private Integer numberOfPerson;
 
     public ActivityResponse(Activity activity) {
         this.activityId = activity.getId();
         this.displayName = activity.getDisplayName();
         this.description = activity.getDescription();
+        this.numberOfPerson = activity.getNumberOfPerson();
     }
 }
