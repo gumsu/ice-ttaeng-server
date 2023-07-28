@@ -42,8 +42,9 @@ public class WebSocketEventListener {
 
         if (event.getUser() instanceof ActivityParticipant participant) {
             int count;
-            if (Objects.requireNonNull(destination).contains("/speedgame")) {
-                // 스피드게임의 경우 주최자는 참가하지 않으므로 제외
+            if (Objects.requireNonNull(destination).contains("/speedgame") ||
+                    Objects.requireNonNull(destination).contains("/mininetworking")) {
+                // 스피드게임, 미니네트워킹 경우 주최자는 참가하지 않으므로 제외
                 count = participantService.getParticipant(destination).size();
             } else {
                 count = participantService.getAll(destination).size();
@@ -63,8 +64,9 @@ public class WebSocketEventListener {
         if (event.getUser() instanceof ActivityParticipant participant) {
             String destination = participant.removeDestinationBySubscriptionId(header.getSubscriptionId());
             int count;
-            if (Objects.requireNonNull(destination).contains("/speedgame")) {
-                // 스피드게임의 경우 주최자는 참가하지 않으므로 제외
+            if (Objects.requireNonNull(destination).contains("/speedgame") ||
+                    Objects.requireNonNull(destination).contains("/mininetworking")) {
+                // 스피드게임, 미니네트워킹 경우 주최자는 참가하지 않으므로 제외
                 count = participantService.getParticipant(destination).size();
             } else {
                 count = participantService.getAll(destination).size();
@@ -81,8 +83,9 @@ public class WebSocketEventListener {
         if (event.getUser() instanceof ActivityParticipant participant) {
             participant.getDestinations().forEach((id, destination) -> {
                 int count;
-                if (Objects.requireNonNull(destination).contains("/speedgame")) {
-                    // 스피드게임의 경우 주최자는 참가하지 않으므로 제외
+                if (Objects.requireNonNull(destination).contains("/speedgame") ||
+                        Objects.requireNonNull(destination).contains("/mininetworking")) {
+                    // 스피드게임, 미니네트워킹 경우 주최자는 참가하지 않으므로 제외
                     count = participantService.getParticipant(destination).size();
                 } else {
                     count = participantService.getAll(destination).size();
