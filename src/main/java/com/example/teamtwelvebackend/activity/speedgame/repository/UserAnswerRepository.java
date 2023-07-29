@@ -10,4 +10,5 @@ import java.util.List;
 public interface UserAnswerRepository extends JpaRepository<UserAnswer, Long> {
     List<UserAnswer> findByRoomNameAndQuestionIdAndAnswerId(String roomName, Long questionId, Long answerId);
 //    Optional<UserAnswer> findByRoomNameAndNumber(String roomName, int number);
+    Integer countByRoomNameAndQuestionId(String roomName, Long questionId);
 }

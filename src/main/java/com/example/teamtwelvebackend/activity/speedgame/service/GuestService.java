@@ -1,5 +1,7 @@
 package com.example.teamtwelvebackend.activity.speedgame.service;
 
+import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.ActivityRoomMessage;
+import com.example.teamtwelvebackend.activity.speedgame.controller.ws.message.SubmitParticipantMessage;
 import com.example.teamtwelvebackend.qr.NaverShortUrlService;
 import com.example.teamtwelvebackend.qr.ShortURLAndQrVO;
 import com.example.teamtwelvebackend.ws.Participant;
@@ -11,8 +13,10 @@ import com.example.teamtwelvebackend.activity.speedgame.repository.UserAnswerRep
 import com.example.teamtwelvebackend.activity.speedgame.service.dto.RoomDto;
 import com.example.teamtwelvebackend.ws.ParticipantService;
 import com.example.teamtwelvebackend.ws.RoomInfoMessage;
+import com.example.teamtwelvebackend.ws.RoomParticipantChangedMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +31,7 @@ public class GuestService {
 
     final ParticipantService participantService;
     final NaverShortUrlService naverShortUrlService;
+    final SimpMessagingTemplate template;
 
 
     @Value("${service-url}")
@@ -43,6 +48,11 @@ public class GuestService {
     public void submitAnswer(String roomName, String userId, Long questionId, Long answerId) {
         UserAnswer entity = new UserAnswer(roomName, userId, questionId, answerId);
         userAnswerRepository.save(entity);
+
+        int count = userAnswerRepository.countByRoomNameAndQuestionId(roomName, answerId);
+        SubmitParticipantMessage payload = new SubmitParticipantMessage(count);
+        String simpDestination = "/topic/%s/%s".formatted(ACTIVITY_TYPE, roomName);
+        template.convertAndSend(simpDestination+"/submit-count", new ActivityRoomMessage("SUBMITTED_PARTICIPANT", "", payload));
     }
 
     /**
