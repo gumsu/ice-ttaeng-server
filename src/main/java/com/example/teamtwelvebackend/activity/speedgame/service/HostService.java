@@ -99,6 +99,7 @@ public class HostService {
                 .orElseThrow();
         Answer answer = answerRepository.findById(question.getId()).orElseThrow();
         List<String> correctAnswerText = question.getCorrectAnswer().stream().map(Answer::getAnswerText).toList();
+        log.info("roomName: {} questionId: {} answerId: {}", roomName, question.getId(), answer.getId());
 
         List<String> userIdList = userAnswerRepository.findByRoomNameAndQuestionIdAndAnswerId(roomName, question.getId(), answer.getId()).stream().map(UserAnswer::getUserId).toList();
         userIdList.forEach(userId -> log.info("correct answer userId: +"+userId));
