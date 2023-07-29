@@ -97,11 +97,12 @@ public class HostService {
     private AnswerMessage getAnswer(String roomName, int number) {
         Question question = questionRepository.findByRoomNameAndNumber(roomName, number)
                 .orElseThrow();
-        Answer answer = answerRepository.findById(question.getId()).orElseThrow();
-        List<String> correctAnswerText = question.getCorrectAnswer().stream().map(Answer::getAnswerText).toList();
-        log.info("roomName: {} questionId: {} answerId: {}", roomName, question.getId(), answer.getId());
+        List<Answer> answer = question.getCorrectAnswer();
+        List<Long> answerIds = answer.stream().map(Answer::getId).toList();
+        List<String> correctAnswerText = answer.stream().map(Answer::getAnswerText).toList();
+        log.info("roomName: {} questionId: {} answerId: {}", roomName, question.getId(), answerIds);
 
-        List<String> userIdList = userAnswerRepository.findByRoomNameAndQuestionIdAndAnswerId(roomName, question.getId(), answer.getId()).stream().map(UserAnswer::getUserId).toList();
+        List<String> userIdList = userAnswerRepository.findByRoomNameAndQuestionIdAndAnswerIdIn(roomName, question.getId(), answerIds).stream().map(UserAnswer::getUserId).toList();
         userIdList.forEach(userId -> log.info("correct answer userId: +"+userId));
 
         String simpDestination = "/topic/speedgame/"+roomName;

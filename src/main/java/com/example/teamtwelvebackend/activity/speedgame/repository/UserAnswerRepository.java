@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface UserAnswerRepository extends JpaRepository<UserAnswer, Long> {
-    List<UserAnswer> findByRoomNameAndQuestionIdAndAnswerId(String roomName, Long questionId, Long answerId);
+    List<UserAnswer> findByRoomNameAndQuestionIdAndAnswerIdIn(String roomName, Long questionId, List<Long> answerId);
 //    Optional<UserAnswer> findByRoomNameAndNumber(String roomName, int number);
     Integer countByRoomNameAndQuestionId(String roomName, Long questionId);
 }
