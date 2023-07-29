@@ -11,12 +11,14 @@ import com.example.teamtwelvebackend.activity.speedgame.service.dto.RoomCreatedD
 import com.example.teamtwelvebackend.ws.ParticipantService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class HostService {
     final RoomRepository roomRepository;
     final QuestionRepository questionRepository;
@@ -99,9 +101,12 @@ public class HostService {
         List<String> correctAnswerText = question.getCorrectAnswer().stream().map(Answer::getAnswerText).toList();
 
         List<String> userIdList = userAnswerRepository.findByRoomNameAndQuestionIdAndAnswerId(roomName, question.getId(), answer.getId()).stream().map(UserAnswer::getUserId).toList();
+        userIdList.forEach(userId -> log.info("correct answer userId: +"+userId));
 
         String simpDestination = "/topic/speedgame/"+roomName;
         List<Participant> participant1 = participantService.getParticipant(simpDestination);
+
+        participant1.forEach(p -> log.info("participant: +"+p.getName() + "/"+p.getNickname()));
         List<String> users = participant1.stream()
                 .filter(participant -> userIdList.contains(participant.getName()))
                 .map(participant -> participant.getNickname())

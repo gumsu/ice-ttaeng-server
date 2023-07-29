@@ -49,10 +49,10 @@ public class GuestService {
         UserAnswer entity = new UserAnswer(roomName, userId, questionId, answerId);
         userAnswerRepository.save(entity);
 
-        int count = userAnswerRepository.countByRoomNameAndQuestionId(roomName, answerId);
+        int count = userAnswerRepository.countByRoomNameAndQuestionId(roomName, questionId);
         SubmitParticipantMessage payload = new SubmitParticipantMessage(count);
         String simpDestination = "/topic/%s/%s".formatted(ACTIVITY_TYPE, roomName);
-        template.convertAndSend(simpDestination+"/submit-count", new ActivityRoomMessage("SUBMITTED_PARTICIPANT", "", payload));
+        template.convertAndSend(simpDestination+"/submit-count/"+questionId, new ActivityRoomMessage("SUBMITTED_PARTICIPANT", "", payload));
     }
 
     /**
